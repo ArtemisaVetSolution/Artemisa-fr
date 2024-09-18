@@ -1,18 +1,21 @@
-import { Route, Router } from 'react-router-dom'
-import { RoutesPlusNotFound } from './components/utilities/routes-with-notFound.component'
-import Home from './components/pages/public/home/home.component'
+import { Route } from "react-router-dom";
+import { RoutesPlusNotFound } from "./components/utilities/routes-with-notFound.component";
+import Home from "./components/pages/public/home/home.component";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { materialTheme } from "./state/context/theme";
 
 function App() {
-
   //Logica
   return (
     //Todo lo que retorna el componente App se renderiza en el componente root
-    // Todo: Add route with not found page - snackbar providers - mui theme provider - and guards
-        <RoutesPlusNotFound>
-          <Route path="/" element={<Home/>}/>
-        </RoutesPlusNotFound>
-
-  )
+    // Todo: - snackbar providers - and guards
+    <ThemeProvider theme={materialTheme}>
+      <CssBaseline enableColorScheme />
+      <RoutesPlusNotFound>
+        <Route path="/" element={<Home />} />
+      </RoutesPlusNotFound>
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
