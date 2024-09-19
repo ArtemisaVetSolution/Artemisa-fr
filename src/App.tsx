@@ -6,7 +6,6 @@ import { Route } from "react-router-dom";
 import { RoutesPlusNotFound } from "./components/utilities/routes-with-notFound.component";
 import Home from "./components/pages/public/home/home.component";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { materialTheme } from "./state/context/theme";
 
 
 function App() {
