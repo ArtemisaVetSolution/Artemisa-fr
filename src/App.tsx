@@ -1,8 +1,13 @@
+
+import { PublicRoutes } from './models/routes/routes.model';
+import { materialTheme } from './state/context/theme';
+import LoginForm from './components/pages/public/login/login.component';
 import { Route } from "react-router-dom";
 import { RoutesPlusNotFound } from "./components/utilities/routes-with-notFound.component";
 import Home from "./components/pages/public/home/home.component";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { materialTheme } from "./state/context/theme";
+
 
 function App() {
   //Logica
@@ -13,6 +18,8 @@ function App() {
       <CssBaseline enableColorScheme />
       <RoutesPlusNotFound>
         <Route path="/" element={<Home />} />
+          <Route path={PublicRoutes.LOGIN} element={<LoginForm/>}/>
+          {/* <Route path="/appointments" element={<Appointments/>}/> */}
       </RoutesPlusNotFound>
     </ThemeProvider>
   );
