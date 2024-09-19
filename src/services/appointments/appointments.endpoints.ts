@@ -2,7 +2,8 @@ export const APPOINTMENTS_API_ENDPOINTS = (id?: string) => {
     return {
         GET_ALL: `appointments`,
         GET_BY_ID: `appointments${id}`,
-        GET_AVAILABILITY: `appointments/available?`,
+        GET_AVAILABILITY: `appointments/available`,
+        CREATE: `appointments`
     }
 }
-export type TEndpointKeys = 'GET_ALL' | 'GET_BY_ID';
+export type TEndpointKeys = 'GET_ALL' | 'GET_BY_ID' | 'GET_AVAILABILITY' | 'CREATE';
