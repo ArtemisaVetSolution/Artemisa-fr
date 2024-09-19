@@ -5,8 +5,9 @@ import { useLoginSubmit } from './hooks/use-login-submit';
 
 import InputField from '../../../UX/atoms/inputs/inputField.component';
 import SubmitButton from '../../../UX/atoms/buttons/submitButtonLoginRegister.component';
-import axios from 'axios';
 import { Box } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 
 const schema = yup.object().shape({
@@ -15,33 +16,24 @@ const schema = yup.object().shape({
 });
 
 const LoginForm = () => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { control, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema)
   });
 
-//   const onSubmit = async (data: any) => {
-//     try {
-//       const response = await useLoginSubmit(data);
-//       console.log("login exitoso", response);
-//     } catch (error) {
-//       console.error("error en login", error);
-//     }
-//   };
-
 const onSubmit = async (data: any) => {
-    console.log("Datos enviados desde el formulario:", data); // Verifica los datos del formulario
-
     try {
-      const response = await useLoginSubmit(data);
+      const response = await useLoginSubmit({...data, dispatch, navigate});
       console.log(response);
-      
-      // console.log("Respuesta del servidor:", response.data); // Muestra la respuesta del servidor
     } catch (error: any) {
-      console.error("Error en la petición:", error.message); // Muestra el error en la consola
+      console.error("Error en la petición:", error.message); 
     }
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    
+    <form onSubmit={handleSubmit(onSubmit)} style={{display:'flex', flexDirection:'column', gap:'10px', width:'50%', marginTop:'50px', marginLeft:'25%'}}>
       <Controller
         name="email"
         control={control}

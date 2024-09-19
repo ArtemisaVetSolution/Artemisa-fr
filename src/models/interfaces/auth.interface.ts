@@ -7,6 +7,10 @@ export interface ILoginReq {
 }
 
 export interface ILoginResponse {
-    user: IUser;
+  data:{
+    email: string;
+    id: string;
+    role: string;
     token: string;
+  }  
 }  

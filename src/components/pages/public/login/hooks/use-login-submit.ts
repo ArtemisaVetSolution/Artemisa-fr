@@ -1,30 +1,39 @@
-import { useEffect, useState } from "react";
-import { AuthService } from "../../../../../services/auth.service";
+
+import { AuthService } from "@/services/auth.service";
+import { setUser } from "@/state/redux/states";
+import { jwtDecode } from 'jwt-decode';
+import { useDispatch } from "react-redux";
 
 type IProps = {
 	email: string;
 	password: string;
+  dispatch: ReturnType<typeof useDispatch>;
+  navigate?: (path : string) => void;
 }
 
-export const useLoginSubmit = async ({ email, password }: IProps) => {
-	// const[response, setResponse] = useState<any>(null);
+export const useLoginSubmit = async ({ email, password, dispatch, navigate }: IProps) => {
   const response = await AuthService.login({ email, password });
   console.log("Respuesta del servidor:", response); // Muestra la respuesta del servidor
-  
-  // useEffect(() => {
-  //   console.log("Datos enviados desde el formulario:", email, password); // Verifica los datos del formulario
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await AuthService.login({ email, password });
-  //       console.log("Respuesta del servidor:", response); // Muestra la respuesta del servidor
-  //       setResponse(response);
-  //     } catch (error: any) {
-  //       console.error("Error en la petición:", error.message); // Muestra el error en la consola
-  //     }
-  //   }
-  //   fetchData();
-  // }
-  // , [email, password]);
+  try {
+    storeToken(response.data.token);
+    const user = {
+      email: response.data.email,
+      id: response.data.id,
+      role: response.data.role
+    }
+    dispatch(setUser(user));
+    if(navigate){
+      user.role === 'admin' ? navigate('/') : navigate('/');
+    }
 
-	// return response;
+  }
+  catch (error: any) {
+    console.error("Error en la petición:", error.message);
+  }
+}
+
+const storeToken = (token: string) => {
+	sessionStorage.setItem("token", token);
+	const decodedToken = jwtDecode(token);
+	sessionStorage.setItem("user", JSON.stringify(decodedToken));
 }

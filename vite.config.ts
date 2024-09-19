@@ -12,6 +12,11 @@ export default defineConfig({
     strictPort: true,
     port: 5173, // Usa el mismo puerto que tienes configurado
   },
+  resolve: {
+    alias: {
+      '@': '/src',
+    }
+  }
 })
 
 

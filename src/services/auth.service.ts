@@ -1,5 +1,5 @@
 import { axiosInstanceUsers } from "../config/axios.config";
-import { ILoginReq, ILoginResponse } from "../interfaces/auth.interface";
+import { ILoginReq, ILoginResponse } from "../models/interfaces/auth.interface";
 import { TEndpoitKeys, USERS_API_ENDPOINTS } from "./auth/auth-endpoints";
 
 const getEndpoint = (method: TEndpoitKeys) : string => {
