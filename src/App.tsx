@@ -1,6 +1,7 @@
-import { Route, Router } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import { RoutesPlusNotFound } from './components/utilities/routes-with-notFound.component'
 import Home from './components/pages/public/home/home.component'
+import Appointments from './components/pages/private/appointments/appointments.component'
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
     // Todo: Add route with not found page - snackbar providers - mui theme provider - and guards
         <RoutesPlusNotFound>
           <Route path="/" element={<Home/>}/>
+          <Route path="/appointments" element={<Appointments/>}/>
         </RoutesPlusNotFound>
 
   )
