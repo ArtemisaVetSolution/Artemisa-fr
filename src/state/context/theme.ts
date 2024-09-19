@@ -31,8 +31,8 @@ const materialTheme = createTheme({
   palette: {
     complementary: {
       main: "#EE6C4D",
+      dark: "##ed411A",
     },
-
     ligth: {
       main: "#E0FBFC",
     },
@@ -54,9 +54,9 @@ const materialTheme = createTheme({
     error: {
       main: "#EB613F",
     },
-    background: {
-      default: "#E0FBFC",
-    },
+    // background: {
+    //   default: "#E0FBFC",
+    // },
   },
   typography: {
     fontFamily: [ "Dosis" ,"Handlee" ,"Ubuntu", "sans-serif"].join(","),
@@ -69,14 +69,14 @@ const materialTheme = createTheme({
     h2: {
       fontFamily: "Dosis",
       fontWeight: 700,
-      fontSize: "42px",
-      lineHeight: 1.5,
+      fontSize: "50px",
+      lineHeight: 1,
     },
     h3: {
       fontFamily: "Dosis",
-      fontWeight: 700,
+      fontWeight: 500,
       fontSize: "35px",
-      lineHeight: 1.5,
+      lineHeight: 1,
     },
     subtitle1: {
       fontFamily: "Dosis",
@@ -93,7 +93,7 @@ const materialTheme = createTheme({
     body1: {
       fontFamily: "Dosis",
       fontWeight: 400,
-      fontSize: "14px",
+      fontSize: "18px",
       lineHeight: 1.5,
     },
     body2: {
