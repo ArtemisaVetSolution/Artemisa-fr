@@ -1,9 +1,20 @@
 import { Box, Button, Typography } from "@mui/material";
 import Card from "./components/card.component";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react"
+import { IService, ServicesService } from "@/services/services/services.service"
+
 
 const Home = () => {
   const navigate = useNavigate();
+  const [services, setServices] = useState<IService[]>([])
+  useEffect(() => {
+    const fetchServices = async () => {
+      const services = await ServicesService.getAll()
+      setServices(services)
+    }
+    fetchServices()
+  }, [])
   return (
     <Box
       sx={{
@@ -36,6 +47,7 @@ const Home = () => {
           <Box
             component="img"
             src="static/assets/lindo-perro-sacando-lengua-ilustracion-icono-dibujos-animados.png"
+            sx={{ height: "100%", objectFit: "contain" }}
             ></Box>
         </Box>
         <Box
@@ -85,23 +97,39 @@ const Home = () => {
             display: "flex",
             flexDirection: "column",
             width: "35%",
-            height: "90%",
+            height: "50%",
+            justifyContent: "space-around",
           }}
-        ></Box>
+        >
+          <Typography variant="h2" sx={{ color: "secondary.main" }}>
+            Nosotros
+          </Typography>
+          <Box sx={{ backgroundColor: '#FFFFFF20', padding:'10px', borderRadius:'10px'}} >
+            <Typography variant="body1" sx={{ color: "ligth.main" }}>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Placeat
+              veritatis, quidem unde in dicta tempora asperiores animi nihil
+              molestias velit
+            </Typography>
+          </Box>
+        </Box>
       </Box>
       <Box
         sx={{
           backgroundColor: "ligth.main",
           width: "100%",
           height: "40%",
-          padding: "1%",
+          padding: "40px",
+          display: "flex",
+          justifyContent: "space-around",
         }}
       >
-        <Card
-          title="Servicios"
-          subtitle="Baño"
-          description="Este es una descripcion para un servicio de baño"
-        ></Card>
+        {services.map((service, index) => (
+          <Card
+            key={index}
+            name={service.name}
+          ></Card>
+        ))
+          }
       </Box>
     </Box>
   );
