@@ -1,12 +1,12 @@
 import { ServicesService } from "../../../../../services/services/services.service";
 import { useForm, SubmitHandler, Controller, useWatch } from "react-hook-form"
-import styles from './styles.module.css'
+import styles from '../styles.module.css'
 import BasicSelect from "../../../../UX/atoms/inputs/select.component";
 import DatePicker from "../../../../UX/atoms/inputs/datePicker.component";
 import { useEffect, useState } from "react";
 import { Dayjs } from "dayjs";
 import { CollaboratorsService } from "../../../../../services/collaborator/collaborators.service";
-import { PatientsService } from "../../../../../services/patients/patients.service";
+import { IPatients, PatientsService } from "../../../../../services/patients/patients.service";
 import useFetch from "../../../../../hooks/fetch.hook";
 import SubmitBtnComponent from "../../../../UX/atoms/buttons/submitBtn.component";
 import { AppointmentsService } from "../../../../../services/appointments/appointments.service";
@@ -26,7 +26,7 @@ const AppointmentForm = () => {
     const [availability, setAvailability] = useState([]);
 
     const services = useFetch(ServicesService.getAll);
-    const patients = useFetch(() => PatientsService.getAll('tutorId=1'));
+    const patients: IPatients[] = useFetch(() => PatientsService.getAll('tutorId=1'));
     const collaborators = useFetch(() => CollaboratorsService.getAll(query), [query]);
 
     const { control, handleSubmit,
@@ -114,12 +114,9 @@ const AppointmentForm = () => {
                     message: 'Campo requerido'
                 },
             }} render={({ field }) => (
-                <BasicSelect items={patientsNames} label={'Mascota'} field={field} />
+                <BasicSelect items={patientsNames} label={'Mascota'} field={field} error={errors.patient}/>
             )}
             />
-            {
-                errors.patient && <span className={styles.errors}>{errors.patient.message}</span>
-            }
 
             <Controller name='service' control={control} defaultValue={""} rules={{
                 required: {
@@ -127,12 +124,9 @@ const AppointmentForm = () => {
                     message: 'Campo requerido'
                 },
             }} render={({ field }) => (
-                <BasicSelect items={servicesNames} label={'Servicio'} field={field} />
+                <BasicSelect items={servicesNames} label={'Servicio'} field={field} error={errors.service} />
             )}
             />
-            {
-                errors.service && <span className={styles.errors}>{errors.service.message}</span>
-            }
 
             <Controller name='date' control={control} rules={{
                 required: {
@@ -140,12 +134,9 @@ const AppointmentForm = () => {
                     message: 'Campo requerido'
                 },
             }} render={({ field }) => (
-                <DatePicker field={field} label='Fecha' />
+                <DatePicker field={field} label='Fecha' options='disablePast' error={errors.date}/>
             )}
             />
-            {
-                errors.date && <span className={styles.errors}>{errors.date.message}</span>
-            }
 
             <Controller name='collaborator' control={control} defaultValue={""} rules={{
                 required: {
@@ -153,12 +144,9 @@ const AppointmentForm = () => {
                     message: 'Campo requerido'
                 },
             }} render={({ field }) => (
-                <BasicSelect items={collaboratorsNames} label={'Profesional'} field={field} />
+                <BasicSelect items={collaboratorsNames} label={'Profesional'} field={field} error={errors.collaborator} />
             )}
             />
-            {
-                errors.collaborator && <span className={styles.errors}>{errors.collaborator.message}</span>
-            }
 
             {
                 renderAvailability && (
@@ -168,12 +156,9 @@ const AppointmentForm = () => {
                             message: 'Campo requerido'
                         },
                     }} render={({ field }) => (
-                        <RowRadio items={availability} label='Horas disponibles' field={field} />
+                        <RowRadio items={availability} label='Horas disponibles' field={field} error={errors.time} />
                     )} />
                 )
-            }
-            {
-                errors.time && <span className={styles.errors}>{errors.time.message}</span>
             }
 
             <SubmitBtnComponent text={'Agendar Cita'} />

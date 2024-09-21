@@ -3,17 +3,19 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import { ControllerRenderProps } from 'react-hook-form';
+import { ControllerRenderProps, FieldError } from 'react-hook-form';
+import { FormHelperText } from '@mui/material';
 
 interface IProps {
     items: string[];
     label: string;
-    field: ControllerRenderProps<any>
+    field: ControllerRenderProps<any>;
+    error?: FieldError;
 }
 
-export default function RowRadio({ items, label, field }: IProps) {
+export default function RowRadio({ items, label, field, error }: IProps) {
     return (
-        <FormControl>
+        <FormControl component="fieldset" error={!!error}>
             <FormLabel id="radio-group-label">{label}</FormLabel>
             <RadioGroup
                 row
@@ -32,6 +34,7 @@ export default function RowRadio({ items, label, field }: IProps) {
                     ))
                 }
             </RadioGroup>
+            {error && <FormHelperText>{error.message}</FormHelperText>}
         </FormControl>
     );
 }

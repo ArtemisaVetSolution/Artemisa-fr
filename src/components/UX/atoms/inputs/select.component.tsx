@@ -3,15 +3,17 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { ControllerRenderProps } from 'react-hook-form';
+import { ControllerRenderProps, FieldError } from 'react-hook-form';
+import { FormHelperText } from '@mui/material';
 
 interface IProps {
   items: { id: string, name: string }[];
   label: string;
   field: ControllerRenderProps<any>;
+  error?: FieldError;
 }
 
-const BasicSelect = ({ items, label, field }: IProps) => {
+const BasicSelect = ({ items, label, field, error }: IProps) => {
   return (
     <Box sx={{
       minWidth: 120, width: '100%', '& .MuiOutlinedInput-root': {
@@ -34,6 +36,7 @@ const BasicSelect = ({ items, label, field }: IProps) => {
           id="basic-select"
           value={field.value}
           label={label}
+          error={!!error}
           onChange={field.onChange}
         >
           {items.map((item) => (
@@ -42,6 +45,7 @@ const BasicSelect = ({ items, label, field }: IProps) => {
             </MenuItem>
           ))}
         </Select>
+        <FormHelperText>{error ? error.message : null}</FormHelperText>
       </FormControl>
     </Box>
   );

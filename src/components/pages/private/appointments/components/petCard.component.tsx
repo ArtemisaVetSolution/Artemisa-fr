@@ -1,30 +1,22 @@
-import styles from './styles.module.css';
-// const PetCardComponent = () => {
-//     return (
-//         <div className={styles.card}>
-//             <div className={styles.pictureContainer}>Hola</div>
-
-//         </div>
-//     )
-// }
+import styles from '../styles.module.css'
 
 interface PetCardProps {
-    imageUrl: string;
+
     name: string;
     species: string;
     breed: string;
-    birthDate: string;
+
 }
 
-function PetCardComponent({ imageUrl, name, species, breed, birthDate }: PetCardProps) {
+function PetCardComponent({ name, species, breed, }: PetCardProps) {
 
     return (
-        <div className={styles.card}>
+        <div className={styles.petCard}>
             <div className={styles.content}>
                 <div className={styles.header}>
                     <div className={styles.imageContainer}>
                         <img
-                            src={imageUrl}
+                            src='static/assets/paw-print.png'
                             alt={`${name}'s paw print`}
                             className={styles.image}
                         />
@@ -33,13 +25,10 @@ function PetCardComponent({ imageUrl, name, species, breed, birthDate }: PetCard
                 </div>
                 <div className={styles.infoContainer}>
                     <p className={styles.infoText}>
-                        <span className={styles.infoLabel}>Species:</span> {species}
+                        <span className={styles.infoLabel}>Especie:</span> {species}
                     </p>
                     <p className={styles.infoText}>
-                        <span className={styles.infoLabel}>Breed:</span> {breed}
-                    </p>
-                    <p className={styles.infoText}>
-                        <span className={styles.infoLabel}>Birth Date:</span> {birthDate}
+                        <span className={styles.infoLabel}>Raza:</span> {breed}
                     </p>
                 </div>
             </div>

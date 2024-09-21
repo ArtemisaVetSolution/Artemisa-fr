@@ -6,6 +6,7 @@ import { Route } from "react-router-dom";
 import { RoutesPlusNotFound } from "./components/utilities/routes-with-notFound.component";
 import Home from "./components/pages/public/home/home.component";
 import { CssBaseline, ThemeProvider } from "@mui/material";
+import Appointments from './components/pages/private/appointments/appointments.component';
 
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
       <RoutesPlusNotFound>
         <Route path="/" element={<Home />} />
           <Route path={PublicRoutes.LOGIN} element={<LoginForm/>}/>
-          {/* <Route path="/appointments" element={<Appointments/>}/> */}
+          <Route path="/appointments" element={<Appointments/>}/>
       </RoutesPlusNotFound>
     </ThemeProvider>
   );

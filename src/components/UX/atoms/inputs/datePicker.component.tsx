@@ -6,15 +6,18 @@ import { ControllerRenderProps } from 'react-hook-form';
 interface IProps {
   field: ControllerRenderProps<any>;
   label: string;
+  options?: 'disablePast' | 'disableFuture';
+  error?: any;
 }
 
-const DatePickerComp = ({ field, label }: IProps) => {
+const DatePickerComp = ({ field, label, options, error }: IProps) => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
 
       <DatePicker
-        disablePast
+        disableFuture={options === 'disableFuture' ? true : false}
+        disablePast={options === 'disablePast' ? true : false}
         views={['year', 'month', 'day']}
         label={label}
         value={field.value}
@@ -36,7 +39,14 @@ const DatePickerComp = ({ field, label }: IProps) => {
             },
           },
         }}
-
+        slotProps={{
+          textField: {
+            fullWidth: true,
+            variant: "outlined",
+            error: !!error,
+            helperText: error ? error.message : null,
+          },
+        }}
         
 
       />
