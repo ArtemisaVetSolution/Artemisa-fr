@@ -6,6 +6,7 @@ import { Route } from "react-router-dom";
 import { RoutesPlusNotFound } from "./components/utilities/routes-with-notFound.component";
 import Home from "./components/pages/public/home/home.component";
 import { CssBaseline, ThemeProvider } from "@mui/material";
+import Guard from './components/guards/user-and-token-validation.guard';
 
 
 function App() {
@@ -17,8 +18,10 @@ function App() {
       <CssBaseline enableColorScheme />
       <RoutesPlusNotFound>
         <Route path="/" element={<Home />} />
+        <Route element= {<Guard isForAuth/>}>
           <Route path={PublicRoutes.LOGIN} element={<LoginForm/>}/>
           {/* <Route path="/appointments" element={<Appointments/>}/> */}
+        </Route>
       </RoutesPlusNotFound>
     </ThemeProvider>
   );
