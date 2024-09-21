@@ -18,6 +18,10 @@ export class AuthService{
                 throw new Error(error.message);
             }
         }
+
+        static logout = (): void => {
+          sessionStorage.removeItem("token");
+        };
     }
 
 
