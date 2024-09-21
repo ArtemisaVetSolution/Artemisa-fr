@@ -20,7 +20,11 @@ interface IFormInput {
     alimentation: string;
 }
 
-const PetFormComponent = () => {
+interface IProps {
+    tutorId: number;
+}
+
+const PetFormComponent = ({ tutorId }: IProps) => {
 
     const { control, handleSubmit,
         formState: { errors }
@@ -46,7 +50,7 @@ const PetFormComponent = () => {
                 dob: data.dob?.toISOString().split('T')[0],
                 color: data.color,
                 alimentation: data.alimentation,
-                tutorId: 1
+                tutorId
             }
 
             console.log(body);

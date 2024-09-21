@@ -1,17 +1,29 @@
+import { useState } from 'react';
 import styles from '../styles.module.css'
+import ModalComponent from './modal.components';
+import PetInfoComponent from './petInfo.component';
 
 interface PetCardProps {
 
     name: string;
     species: string;
     breed: string;
+    id: number;
 
 }
 
-function PetCardComponent({ name, species, breed, }: PetCardProps) {
+function PetCardComponent({ name, species, breed, id}: PetCardProps) {
 
+    const [openModal, setOpenModal] = useState(false);
+
+    const handleOpenModal = () => setOpenModal(true);
+    const handleCloseModal = () => setOpenModal(false);
+
+
+    
     return (
-        <div className={styles.petCard}>
+        <>
+        <div className={styles.petCard} onClick={handleOpenModal} >
             <div className={styles.content}>
                 <div className={styles.header}>
                     <div className={styles.imageContainer}>
@@ -33,6 +45,10 @@ function PetCardComponent({ name, species, breed, }: PetCardProps) {
                 </div>
             </div>
         </div>
+        <ModalComponent open={openModal} onClose={handleCloseModal} >
+            <PetInfoComponent name={name} />
+        </ModalComponent>
+        </>
     );
 }
 

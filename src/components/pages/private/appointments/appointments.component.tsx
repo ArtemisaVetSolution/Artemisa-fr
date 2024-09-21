@@ -14,10 +14,20 @@ import IAppointmentResponse from "@/services/appointments/interfaces/appointment
 import { IAppStore } from "@/state/redux/store";
 import { useSelector } from "react-redux";
 import { TutorsService } from "@/services/tutors/tutors.service";
+import { IUser } from "@/models/interfaces";
+import ITutorsResponse from "@/services/tutors/interfaces/interfaces";
 
 const Appointments = () => {
 
-  const userState = useSelector((state : IAppStore)=>  state.user);
+  // const userState = useSelector((state : IAppStore)=>  state.user);
+  // const userState: any = sessionStorage.getItem('user') ? sessionStorage.getItem('user')  : JSON.stringify({id:0}) 
+
+  // if (userState){
+  //   console.log(JSON.parse(userState.id));
+
+  // }
+  // const userObject: (userState);
+  // console.log(userObject.id)
 
 
   //Handle modals
@@ -31,60 +41,67 @@ const Appointments = () => {
   const handleCloseAppointmentModal = () => setOpenAppointmentModal(false);
 
   //Get tutor ID
-  const [tutor, setTutor] = useState({});
+  const [tutor, setTutor] = useState<ITutorsResponse | null>(null);
 
   useEffect(() => {
     async function fetchData() {
-        try {
-            const result = await TutorsService.getByUserId(userState.id);
-            setTutor(result);
-            console.log(result);
-        } catch (error) {
-            console.error(error);
-        }
+      try {
+        const result: ITutorsResponse = await TutorsService.getByUserId('96f9c7e7-cbf2-4e2f-ab9c-21b7e90370c7');
+        setTutor(result);
+
+      } catch (error) {
+        console.error(error);
+      }
     }
     fetchData();
-}, [userState])
+  }, [])
 
 
-  const pets: IPatients[] = useFetch(()=>PatientsService.getAll('tutorId=1'));
-  const appointments: IAppointmentResponse[] = useFetch(() => AppointmentsService.getAllOrFilter('tutorId=1'));
+  const pets: IPatients[] = useFetch(
+    () => tutor && tutor.id ? PatientsService.getAll(`tutorId=${tutor.id}`) : Promise.resolve([]),
+    [tutor]
+  );
+  const appointments: IAppointmentResponse[] = useFetch(
+    () => tutor && tutor.id ? AppointmentsService.getAllOrFilter(`tutorId=${tutor.id}`) : Promise.resolve([]),
+    [tutor]);
+
+
 
   return (
     <div className={styles.container}>
-      <Box sx={{width:'100%'}} className={styles.petContainer}>
-        <h1 style={{color: 'white'}}>Tus Mascotas</h1>
-      <div className={styles.cardsContainer}>
-      {
-          pets.map(pet => {
-            return <PetCardComponent name={pet.name} species={pet.specie} breed={pet.breed}/>
-          }) 
-        }
-      </div>
+      <Box sx={{ width: '100%' }} className={styles.petContainer}>
+        <h1 style={{ color: 'white' }}>Tus Mascotas</h1>
+        <div className={styles.cardsContainer}>
+          {
+            pets.map((pet) => {
+              return <PetCardComponent key={pet.id} name={pet.name} species={pet.specie} breed={pet.breed} id={pet.id} />
+            })
+          }
+        </div>
 
-        
+
         <SubmitBtnComponent onClick={handleOpenPetModal} text="Añadir mascota" />
         <ModalComponent open={openPetModal} onClose={handleClosePetModal}>
-          <PetFormComponent />
+          <PetFormComponent tutorId={tutor?.id || 0}/>
         </ModalComponent>
       </Box>
 
 
 
-      <Box sx={{width:'100%'}} className={styles.appointmentContainer}>
+      <Box sx={{ width: '100%' }} className={styles.appointmentContainer}>
         <h1>Tus Citas</h1>
         <div className={styles.cardsContainer}>
-        {
-          appointments.map(appointment => {
-            const date = new Date(appointment.date);
-            const formattedDate = date.toISOString().split('T')[0];
-            return <AppointmentCardComponent pet={appointment.patient.name} time={appointment.time} date={formattedDate} state={appointment.state} service={appointment.service.name} />
-          })
-        }
+          {
+            appointments.map(appointment => {
+              const date = new Date(appointment.date);
+              const formattedDate = date.toISOString().split('T')[0];
+              return <AppointmentCardComponent key={appointment.id} pet={appointment.patient.name} time={appointment.time} date={formattedDate} state={appointment.state} service={appointment.service.name} />
+            })
+          }
         </div>
         <SubmitBtnComponent onClick={handleOpenAppointmentModal} text="Agendar cita" />
         <ModalComponent open={openAppointmentModal} onClose={handleCloseAppointmentModal}>
-          <AppointmentForm />
+          <AppointmentForm tutorId={tutor?.id || 0}/>
         </ModalComponent>
       </Box>
     </div>

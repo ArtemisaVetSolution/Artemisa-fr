@@ -21,12 +21,16 @@ interface IFormInput {
     time: string;
 }
 
-const AppointmentForm = () => {
+interface IProps {
+    tutorId: number;
+}
+
+const AppointmentForm = ({ tutorId }: IProps ) => {
     const [query, setQuery] = useState('');
     const [availability, setAvailability] = useState([]);
 
     const services = useFetch(ServicesService.getAll);
-    const patients: IPatients[] = useFetch(() => PatientsService.getAll('tutorId=1'));
+    const patients: IPatients[] = useFetch(() => PatientsService.getAll(`tutorId=${tutorId}`));
     const collaborators = useFetch(() => CollaboratorsService.getAll(query), [query]);
 
     const { control, handleSubmit,
@@ -114,7 +118,7 @@ const AppointmentForm = () => {
                     message: 'Campo requerido'
                 },
             }} render={({ field }) => (
-                <BasicSelect items={patientsNames} label={'Mascota'} field={field} error={errors.patient}/>
+                <BasicSelect items={patientsNames} label={'Mascota'} field={field} error={errors.patient} />
             )}
             />
 
@@ -134,7 +138,7 @@ const AppointmentForm = () => {
                     message: 'Campo requerido'
                 },
             }} render={({ field }) => (
-                <DatePicker field={field} label='Fecha' options='disablePast' error={errors.date}/>
+                <DatePicker field={field} label='Fecha' options='disablePast' error={errors.date} />
             )}
             />
 

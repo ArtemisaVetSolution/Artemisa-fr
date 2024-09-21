@@ -174,3 +174,7 @@
 .appointmentInfo {
     display: inline-block;
 }
+
+.petInfoContainer {
+    height: 70vh;
+}
