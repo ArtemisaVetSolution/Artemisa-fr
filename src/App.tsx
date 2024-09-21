@@ -1,13 +1,12 @@
-
-import { PublicRoutes } from './models/routes/routes.model';
-import { materialTheme } from './state/context/theme';
-import LoginForm from './components/pages/public/login/login.component';
+import { PublicRoutes } from "./models/routes/routes.model";
+import { materialTheme } from "./state/context/theme";
+import LoginForm from "./components/pages/public/login/login.component";
 import { Route } from "react-router-dom";
 import { RoutesPlusNotFound } from "./components/utilities/routes-with-notFound.component";
 import Home from "./components/pages/public/home/home.component";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import Guard from './components/guards/user-and-token-validation.guard';
-
+import Guard from "./components/guards/user-and-token-validation.guard";
+import UserLayout from "./components/layout/user.layout";
 
 function App() {
   //Logica
@@ -17,10 +16,12 @@ function App() {
     <ThemeProvider theme={materialTheme}>
       <CssBaseline enableColorScheme />
       <RoutesPlusNotFound>
-        <Route path="/" element={<Home />} />
-        <Route element= {<Guard isForAuth/>}>
-          <Route path={PublicRoutes.LOGIN} element={<LoginForm/>}/>
+        <Route element={<Guard isForAuth />}>
+          <Route path={PublicRoutes.LOGIN} element={<LoginForm />} />
           {/* <Route path="/appointments" element={<Appointments/>}/> */}
+        </Route>
+        <Route element={<UserLayout />}>
+          <Route path="/" element={<Home />} />
         </Route>
       </RoutesPlusNotFound>
     </ThemeProvider>

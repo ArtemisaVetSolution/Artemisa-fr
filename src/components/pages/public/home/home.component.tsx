@@ -18,7 +18,7 @@ const Home = () => {
   return (
     <Box
       sx={{
-        height: "100vh",
+        height: "90vh",
         width: "100vw",
         display: "flex",
         flexDirection: "column",
@@ -56,7 +56,7 @@ const Home = () => {
             flexDirection: "column",
             justifyContent: "space-around",
             alignItems: "center",
-            width: "30%",
+            width: "40%",
             height: "90%",
           }}
         >
@@ -96,12 +96,12 @@ const Home = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: "35%",
+            width: "25%",
             height: "50%",
             justifyContent: "space-around",
           }}
         >
-          <Typography variant="h2" sx={{ color: "secondary.main" }}>
+          {/* <Typography variant="h2" sx={{ color: "secondary.main" }}>
             Nosotros
           </Typography>
           <Box sx={{ backgroundColor: '#FFFFFF20', padding:'10px', borderRadius:'10px'}} >
@@ -110,7 +110,7 @@ const Home = () => {
               veritatis, quidem unde in dicta tempora asperiores animi nihil
               molestias velit
             </Typography>
-          </Box>
+          </Box> */}
         </Box>
       </Box>
       <Box
