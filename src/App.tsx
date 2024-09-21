@@ -1,12 +1,12 @@
-
-import { PublicRoutes } from './models/routes/routes.model';
-import { materialTheme } from './state/context/theme';
-import LoginForm from './components/pages/public/login/login.component';
+import { PublicRoutes } from "./models/routes/routes.model";
+import { materialTheme } from "./state/context/theme";
+import LoginForm from "./components/pages/public/login/login.component";
 import { Route } from "react-router-dom";
 import { RoutesPlusNotFound } from "./components/utilities/routes-with-notFound.component";
 import Home from "./components/pages/public/home/home.component";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import Appointments from './components/pages/private/appointments/appointments.component';
+import Guard from "./components/guards/user-and-token-validation.guard";
+import UserLayout from "./components/layout/user.layout";import Appointments from './components/pages/private/appointments/appointments.component';
 
 
 function App() {
@@ -17,9 +17,13 @@ function App() {
     <ThemeProvider theme={materialTheme}>
       <CssBaseline enableColorScheme />
       <RoutesPlusNotFound>
-        <Route path="/" element={<Home />} />
-          <Route path={PublicRoutes.LOGIN} element={<LoginForm/>}/>
+        <Route element={<Guard isForAuth />}>
+          <Route path={PublicRoutes.LOGIN} element={<LoginForm />} />
+        </Route>
+        <Route element={<UserLayout />}>
+          <Route path="/" element={<Home />} />
           <Route path="/appointments" element={<Appointments/>}/>
+        </Route>
       </RoutesPlusNotFound>
     </ThemeProvider>
   );
