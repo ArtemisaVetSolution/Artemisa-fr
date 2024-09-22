@@ -87,7 +87,7 @@ const Home = () => {
                 backgroundColor: "#ed411A",
               },
             }}
-            onClick={()=>{navigate('/asasa')}}
+            onClick={()=>{navigate('/appointments')}}
           >
             Ir a nuestro managment
           </Button>
