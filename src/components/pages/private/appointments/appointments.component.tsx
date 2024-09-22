@@ -51,11 +51,11 @@ const Appointments = () => {
 
   const pets: IPatients[] = useFetch(
     () => tutor && tutor.id ? PatientsService.getAll(`tutorId=${tutor.id}`) : Promise.resolve([]),
-    [tutor]
+    [tutor, openPetModal]
   );
   const appointments: IAppointmentResponse[] = useFetch(
     () => tutor && tutor.id ? AppointmentsService.getAllOrFilter(`tutorId=${tutor.id}`) : Promise.resolve([]),
-    [tutor]);
+    [tutor, openAppointmentModal]);
 
 
 
