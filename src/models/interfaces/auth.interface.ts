@@ -1,5 +1,3 @@
-import { IUser } from "./user.interface";
-
 export interface ILoginReq {
     email: string;
     password: string;
@@ -13,4 +11,27 @@ export interface ILoginResponse {
     role: string;
     token: string;
   }  
-}  
+  statusCode: number;
+}
+
+export interface IRegisterReq {
+  email: string;
+  name: string;
+  password: string;
+  cellphone: string;
+  identificationNumber: number;
+}
+
+export interface IRegisterResponse {
+  data:{
+    email: string;
+    name: string;
+    password: string;
+    cellphone: string;
+    identificationNumber: number;
+  }
+}
+
+export interface IRecoverPasswordReq {
+  email: string;
+}
