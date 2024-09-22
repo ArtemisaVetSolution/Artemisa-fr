@@ -12,6 +12,7 @@ import SubmitBtnComponent from "../../../../UX/atoms/buttons/submitBtn.component
 import { AppointmentsService } from "../../../../../services/appointments/appointments.service";
 import RowRadio from "../../../../UX/atoms/radio/radio.component";
 import { ICreateAppointment } from "../../../../../services/appointments/interfaces/appointment.interfaces";
+import { ConfirmationModal } from "@/components/UX/atoms/modals/confirmationModal.component";
 
 interface IFormInput {
     service: string;
@@ -26,6 +27,12 @@ interface IProps {
 }
 
 const AppointmentForm = ({ tutorId }: IProps ) => {
+
+    const [openModal, setOpenModal] = useState(false);
+    const handleOpenModal = () => setOpenModal(true);
+    const handleCloseModal = () => setOpenModal(false);
+    const [modalText, setModalText] = useState('');
+
     const [query, setQuery] = useState('');
     const [availability, setAvailability] = useState([]);
 
@@ -101,9 +108,14 @@ const AppointmentForm = ({ tutorId }: IProps ) => {
             }
 
             const response = await AppointmentsService.create(body);
-            console.log(response);
+            if(response.statusCode === 201) {
+                setModalText('Cita agendada!');
+                handleOpenModal();
+            }
         } catch (error) {
             console.log(error)
+            setModalText('Algo salió mal');
+            handleOpenModal();
         }
     };
 
@@ -166,6 +178,7 @@ const AppointmentForm = ({ tutorId }: IProps ) => {
             }
 
             <SubmitBtnComponent text={'Agendar Cita'} />
+            <ConfirmationModal text={modalText} open={openModal} onClose={handleCloseModal}/>
         </form>
 
     )

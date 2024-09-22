@@ -9,6 +9,8 @@ import DatePickerComp from "@/components/UX/atoms/inputs/datePicker.component";
 import SubmitBtnComponent from "@/components/UX/atoms/buttons/submitBtn.component";
 import { ICreatePatient } from "@/services/patients/interfaces/createPatient.interface";
 import { PatientsService } from "@/services/patients/patients.service";
+import { useState } from "react";
+import { ConfirmationModal } from "@/components/UX/atoms/modals/confirmationModal.component";
 
 interface IFormInput {
     name: string;
@@ -25,6 +27,13 @@ interface IProps {
 }
 
 const PetFormComponent = ({ tutorId }: IProps) => {
+
+    const [openModal, setOpenModal] = useState(false);
+    const handleOpenModal = () => setOpenModal(true);
+    const handleCloseModal = () => setOpenModal(false);
+    const [modalText, setModalText] = useState('');
+
+
 
     const { control, handleSubmit,
         formState: { errors }
@@ -53,12 +62,16 @@ const PetFormComponent = ({ tutorId }: IProps) => {
                 tutorId
             }
 
-            console.log(body);
-
             const response = await PatientsService.create(body);
-            console.log(response);
+            if(response.statusCode === 201) {
+                setModalText('Mascota creada!');
+                handleOpenModal();
+            }
+            
         } catch (error) {
             console.log(error);
+            setModalText('Algo salió mal');
+            handleOpenModal();
         }
     }
 
@@ -136,6 +149,7 @@ const PetFormComponent = ({ tutorId }: IProps) => {
             )} />
 
             <SubmitBtnComponent text={'Guardar'}/>
+            <ConfirmationModal text={modalText} open={openModal} onClose={handleCloseModal}/>
 
 
         </form>

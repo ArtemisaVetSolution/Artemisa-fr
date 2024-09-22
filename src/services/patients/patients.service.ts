@@ -30,6 +30,6 @@ export class PatientsService {
     static async create(body: ICreatePatient) {
         const endpoint = endpoints('CREATE')
         const { data } = await axiosInstanceVet.post(endpoint, body);
-        return data.data;
+        return data;
     }
 }
