@@ -31,7 +31,7 @@ const materialTheme = createTheme({
   palette: {
     complementary: {
       main: "#EE6C4D",
-      dark: "##ed411A",
+      dark: "#ed411A",
     },
     ligth: {
       main: "#E0FBFC",
@@ -41,12 +41,14 @@ const materialTheme = createTheme({
     },
     primary: {
       main: "#3D5A80",
+      light: "#A8D0D2",
     },
     secondary: {
       main: "#98C1D9",
     },
     success: {
       main: "#4BEBC3",
+      dark: "#73B2B6"
     },
     warning: {
       main: "rgb(230, 202, 82)",
@@ -93,7 +95,7 @@ const materialTheme = createTheme({
     body1: {
       fontFamily: "Dosis",
       fontWeight: 400,
-      fontSize: "18px",
+      fontSize: "1.1em",
       lineHeight: 1.5,
     },
     body2: {

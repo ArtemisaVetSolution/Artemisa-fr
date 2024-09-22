@@ -1,9 +1,11 @@
-export const USERS_API_ENDPOINTS = (token?: string) => {
+export const USERS_API_ENDPOINTS = () => {
     const resource = 'auth/';
 
     return{
         LOGIN: `${resource}login`,
-        REGISTER: `${resource}register`        
+        REGISTER: 'tutors',
+        RECOVER_PASSWORD: 'users/change-password',
+        SEND_NEW_PASSWORD: 'tokens/change-password'
     }
 };
 

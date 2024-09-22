@@ -1,12 +1,15 @@
 import { PublicRoutes } from "./models/routes/routes.model";
 import { materialTheme } from "./state/context/theme";
-import LoginForm from "./components/pages/public/login/login.component";
 import { Route } from "react-router-dom";
 import { RoutesPlusNotFound } from "./components/utilities/routes-with-notFound.component";
 import Home from "./components/pages/public/home/home.component";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import Auth from "./components/pages/public/auth/auth.component";
+import RecoverPasswordEmail from "./components/pages/public/auth/recover-password/recoverPasswordEmail.component";
+import RecoverPasswordNewPassword from "./components/pages/public/auth/recover-password/recoverPasswordNewPass.component";
 import Guard from "./components/guards/user-and-token-validation.guard";
-import UserLayout from "./components/layout/user.layout";import Appointments from './components/pages/private/appointments/appointments.component';
+import UserLayout from "./components/layout/user.layout";
+import Appointments from './components/pages/private/appointments/appointments.component';
+import { CssBaseline, ThemeProvider } from "@mui/material";
 
 
 function App() {
@@ -18,11 +21,14 @@ function App() {
       <CssBaseline enableColorScheme />
       <RoutesPlusNotFound>
         <Route element={<Guard isForAuth />}>
-          <Route path={PublicRoutes.LOGIN} element={<LoginForm />} />
+          <Route path={PublicRoutes.LOGIN} element={<Auth initialView="login" />} />
+          <Route path={PublicRoutes.REGISTER} element={<Auth initialView="register" />} />
+          <Route path={PublicRoutes.RECOVER_PASSWORD} element={<RecoverPasswordEmail />}></Route>
+          <Route path={PublicRoutes.RECOVER_PASSWORD_NEW_PASS} element={<RecoverPasswordNewPassword />}></Route>
         </Route>
         <Route element={<UserLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/appointments" element={<Appointments/>}/>
+          <Route path="/appointments" element={<Appointments />} />
         </Route>
       </RoutesPlusNotFound>
     </ThemeProvider>
