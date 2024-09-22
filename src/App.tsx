@@ -6,7 +6,8 @@ import { RoutesPlusNotFound } from "./components/utilities/routes-with-notFound.
 import Home from "./components/pages/public/home/home.component";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import Guard from "./components/guards/user-and-token-validation.guard";
-import UserLayout from "./components/layout/user.layout";
+import UserLayout from "./components/layout/user.layout";import Appointments from './components/pages/private/appointments/appointments.component';
+
 
 function App() {
   //Logica
@@ -18,10 +19,10 @@ function App() {
       <RoutesPlusNotFound>
         <Route element={<Guard isForAuth />}>
           <Route path={PublicRoutes.LOGIN} element={<LoginForm />} />
-          {/* <Route path="/appointments" element={<Appointments/>}/> */}
         </Route>
         <Route element={<UserLayout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/appointments" element={<Appointments/>}/>
         </Route>
       </RoutesPlusNotFound>
     </ThemeProvider>

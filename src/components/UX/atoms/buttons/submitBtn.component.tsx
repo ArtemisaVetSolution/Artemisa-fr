@@ -3,12 +3,13 @@ import Stack from '@mui/material/Stack';
 
 interface IProps {
     text: string;
+    onClick?: () => any
 }
 
-export default function SubmitBtnComponent ({ text }: IProps) {
+export default function SubmitBtnComponent ({ text, onClick }: IProps) {
     return (
-        <Stack direction="row" spacing={2}>
-            <Button type='submit' variant="outlined" sx={{backgroundColor: '#EE6C4D', color: '#E0FBFC'}}>{text}</Button>
+        <Stack direction="row" spacing={2} sx={{width: '40%'}}>
+            <Button onClick={onClick} type='submit' variant="contained" sx={{backgroundColor: 'complementary.main', color: '#E0FBFC', width: '100%', fontWeight: '700'}}>{text}</Button>
         </Stack>
     );
 }
