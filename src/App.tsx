@@ -1,13 +1,15 @@
+import { PublicRoutes } from "./models/routes/routes.model";
+import { materialTheme } from "./state/context/theme";
 import { Route } from "react-router-dom";
-import { CssBaseline, ThemeProvider } from "@mui/material";
-
-import { PublicRoutes } from './models/routes/routes.model';
-import { materialTheme } from './state/context/theme';
 import { RoutesPlusNotFound } from "./components/utilities/routes-with-notFound.component";
 import Home from "./components/pages/public/home/home.component";
 import Auth from "./components/pages/public/auth/auth.component";
 import RecoverPasswordEmail from "./components/pages/public/auth/recover-password/recoverPasswordEmail.component";
 import RecoverPasswordNewPassword from "./components/pages/public/auth/recover-password/recoverPasswordNewPass.component";
+import Guard from "./components/guards/user-and-token-validation.guard";
+import UserLayout from "./components/layout/user.layout";
+import Appointments from './components/pages/private/appointments/appointments.component';
+import { CssBaseline, ThemeProvider } from "@mui/material";
 
 
 function App() {
@@ -18,11 +20,16 @@ function App() {
     <ThemeProvider theme={materialTheme}>
       <CssBaseline enableColorScheme />
       <RoutesPlusNotFound>
-        <Route path="/" element={<Home />} />
-        <Route path={PublicRoutes.LOGIN} element={<Auth initialView="login" />} />
-        <Route path={PublicRoutes.REGISTER} element={<Auth initialView="register" />} />
-        <Route path={PublicRoutes.RECOVER_PASSWORD} element={<RecoverPasswordEmail/>}></Route>
-        <Route path={PublicRoutes.RECOVER_PASSWORD_NEW_PASS} element={<RecoverPasswordNewPassword/>}></Route>
+        <Route element={<Guard isForAuth />}>
+          <Route path={PublicRoutes.LOGIN} element={<Auth initialView="login" />} />
+          <Route path={PublicRoutes.REGISTER} element={<Auth initialView="register" />} />
+          <Route path={PublicRoutes.RECOVER_PASSWORD} element={<RecoverPasswordEmail />}></Route>
+          <Route path={PublicRoutes.RECOVER_PASSWORD_NEW_PASS} element={<RecoverPasswordNewPassword />}></Route>
+        </Route>
+        <Route element={<UserLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/appointments" element={<Appointments />} />
+        </Route>
       </RoutesPlusNotFound>
     </ThemeProvider>
   );

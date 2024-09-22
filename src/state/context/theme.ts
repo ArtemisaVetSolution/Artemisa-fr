@@ -56,9 +56,9 @@ const materialTheme = createTheme({
     error: {
       main: "#EB613F",
     },
-    // background: {
-    //   default: "#E0FBFC",
-    // },
+    background: {
+      default: "#E0FBFC",
+    },
   },
   typography: {
     fontFamily: [ "Dosis" ,"Handlee" ,"Ubuntu", "sans-serif"].join(","),

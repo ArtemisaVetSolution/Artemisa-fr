@@ -17,6 +17,7 @@ export const useLoginSubmit = async ({ email, password, dispatch, navigate }: IP
     console.log("Respuesta del servidor:", response);
     storeToken(response.data.token);
     const user = {
+      name: response.data.name,
       email: response.data.email,
       id: response.data.id,
       role: response.data.role

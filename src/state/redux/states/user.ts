@@ -8,6 +8,7 @@ export const emptyUserState: IUser = {
   id: "",
   email: "",
   role: "",
+  name: "",
 };
 
 // Create the user slice
@@ -18,6 +19,7 @@ export const userSlice = createSlice({
     setUser: (state, action: PayloadAction<IUser>) => {
       state.id = action.payload.id;
       state.email = action.payload.email;
+      state.name = action.payload.name;
       // state.emailVerified = action.payload.emailVerified;
       // state.emailVerifiedAt = action.payload.emailVerifiedAt;
       // state.password_attempts = action.payload.password_attempts;

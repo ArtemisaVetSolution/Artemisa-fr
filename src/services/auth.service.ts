@@ -55,4 +55,11 @@ export class AuthService{
     
 
     
+
+        static logout = (): void => {
+          sessionStorage.removeItem("token");
+        };
 }
+
+
+    //Todo Reactquery -> Toolkit 

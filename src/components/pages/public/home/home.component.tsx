@@ -1,13 +1,24 @@
 import { Box, Button, Typography } from "@mui/material";
 import Card from "./components/card.component";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react"
+import { IService, ServicesService } from "@/services/services/services.service"
+
 
 const Home = () => {
   const navigate = useNavigate();
+  const [services, setServices] = useState<IService[]>([])
+  useEffect(() => {
+    const fetchServices = async () => {
+      const services = await ServicesService.getAll()
+      setServices(services)
+    }
+    fetchServices()
+  }, [])
   return (
     <Box
       sx={{
-        height: "100vh",
+        height: "90vh",
         width: "100vw",
         display: "flex",
         flexDirection: "column",
@@ -36,6 +47,7 @@ const Home = () => {
           <Box
             component="img"
             src="static/assets/lindo-perro-sacando-lengua-ilustracion-icono-dibujos-animados.png"
+            sx={{ height: "100%", objectFit: "contain" }}
             ></Box>
         </Box>
         <Box
@@ -44,7 +56,7 @@ const Home = () => {
             flexDirection: "column",
             justifyContent: "space-around",
             alignItems: "center",
-            width: "30%",
+            width: "40%",
             height: "90%",
           }}
         >
@@ -75,7 +87,7 @@ const Home = () => {
                 backgroundColor: "#ed411A",
               },
             }}
-            onClick={()=>{navigate('/asasa')}}
+            onClick={()=>{navigate('/appointments')}}
           >
             Ir a nuestro managment
           </Button>
@@ -84,24 +96,40 @@ const Home = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: "35%",
-            height: "90%",
+            width: "25%",
+            height: "50%",
+            justifyContent: "space-around",
           }}
-        ></Box>
+        >
+          {/* <Typography variant="h2" sx={{ color: "secondary.main" }}>
+            Nosotros
+          </Typography>
+          <Box sx={{ backgroundColor: '#FFFFFF20', padding:'10px', borderRadius:'10px'}} >
+            <Typography variant="body1" sx={{ color: "ligth.main" }}>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Placeat
+              veritatis, quidem unde in dicta tempora asperiores animi nihil
+              molestias velit
+            </Typography>
+          </Box> */}
+        </Box>
       </Box>
       <Box
         sx={{
           backgroundColor: "ligth.main",
           width: "100%",
           height: "40%",
-          padding: "1%",
+          padding: "40px",
+          display: "flex",
+          justifyContent: "space-around",
         }}
       >
-        <Card
-          title="Servicios"
-          subtitle="Baño"
-          description="Este es una descripcion para un servicio de baño"
-        ></Card>
+        {services.map((service, index) => (
+          <Card
+            key={index}
+            name={service.name}
+          ></Card>
+        ))
+          }
       </Box>
     </Box>
   );
