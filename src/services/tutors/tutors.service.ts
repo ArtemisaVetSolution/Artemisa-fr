@@ -1,4 +1,4 @@
-import { axiosInstanceVet } from "@/config/axios.config";
+import { axiosInstanceManagmentAppoitments } from "@/config/axios.config";
 import { TEndpointKeys, TUTORS_API_ENDPOINTS } from "./tutors.endpoints";
 import ITutorsResponse from "./interfaces/interfaces";
 
@@ -10,7 +10,7 @@ export class TutorsService {
 
     static async getByUserId(id: string): Promise<ITutorsResponse> {
         const endpoint = endpoints('GET_BY_USER_ID', id)
-        const { data } = await axiosInstanceVet.get(`${endpoint}`);
+        const { data } = await axiosInstanceManagmentAppoitments.get(`${endpoint}`);
         return data.data;
     }
 }

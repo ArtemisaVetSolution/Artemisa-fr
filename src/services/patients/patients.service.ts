@@ -1,5 +1,5 @@
 import { PATIENTS_API_ENDPOINTS, TEndpointKeys } from './patients.endpoints';
-import { axiosInstanceVet } from '../../config/axios.config';
+import { axiosInstanceManagmentAppoitments } from '../../config/axios.config';
 import { ICreatePatient } from './interfaces/createPatient.interface';
 
 export interface IPatients {
@@ -23,13 +23,13 @@ export class PatientsService {
 
     static async getAll(query?: string): Promise<IPatients[]> {
         const endpoint = endpoints('GET_ALL')
-        const { data } = await axiosInstanceVet.get(`${endpoint}?${query && query}`);
+        const { data } = await axiosInstanceManagmentAppoitments.get(`${endpoint}?${query && query}`);
         return data.data;
     }
 
     static async create(body: ICreatePatient) {
         const endpoint = endpoints('CREATE')
-        const { data } = await axiosInstanceVet.post(endpoint, body);
+        const { data } = await axiosInstanceManagmentAppoitments.post(endpoint, body);
         return data;
     }
 }

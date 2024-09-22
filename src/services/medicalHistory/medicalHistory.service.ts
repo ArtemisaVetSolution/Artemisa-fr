@@ -1,4 +1,4 @@
-import { axiosInstanceVet } from "@/config/axios.config";
+import { axiosInstanceManagmentAppoitments } from "@/config/axios.config";
 import { HISTORY_API_ENDPOINTS, TEndpointKeys } from "./medicalHistory.endpoints";
 import IHistoryResponse from "./interfaces/historyResponse.interface";
 
@@ -10,13 +10,13 @@ export class MedicalHistoryService {
 
     static async getAllOrFilter(query?: string): Promise<IHistoryResponse[]> {
         const endpoint = endpoints('GET_ALL_OR_FILTER')
-        const { data } = await axiosInstanceVet.get(`${endpoint}?${query && query}`);
+        const { data } = await axiosInstanceManagmentAppoitments.get(`${endpoint}?${query && query}`);
         return data.data;
     }
 
     static async getFile(id: string): Promise<Blob> {
         const endpoint = endpoints('GET_FILE', id);
-        const { data } = await axiosInstanceVet.get<Blob>(endpoint, {
+        const { data } = await axiosInstanceManagmentAppoitments.get<Blob>(endpoint, {
             responseType: 'blob', 
           });
         return data;
@@ -24,7 +24,7 @@ export class MedicalHistoryService {
 
     // static async create(body: ICreatePatient) {
     //     const endpoint = endpoints('CREATE')
-    //     const { data } = await axiosInstanceVet.post(endpoint, body);
+    //     const { data } = await axiosInstanceManagmentAppoitments.post(endpoint, body);
     //     return data.data;
     // }
 }
