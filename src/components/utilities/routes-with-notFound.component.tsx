@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import NotFound from "../pages/public/not-found/not-found.component";
 // import { NotFound } from "../pages/public/404";
 
 interface IProps {
@@ -9,7 +10,7 @@ export const RoutesPlusNotFound = ({ children }: IProps) => {
   return (
     <Routes>
       {children}
-      <Route path="*"/>
+      <Route path="*" element={<NotFound/>}/>
     </Routes>
   );
 };
