@@ -3,7 +3,7 @@ import AppointmentForm from "./components/form.component";
 import PetFormComponent from "./components/petForm.component";
 import { useEffect, useState } from "react";
 import ModalComponent from "./components/modal.components";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import styles from './styles.module.css'
 import PetCardComponent from "./components/petCard.component";
 import useFetch from "@/hooks/fetch.hook";
@@ -14,20 +14,12 @@ import IAppointmentResponse from "@/services/appointments/interfaces/appointment
 import { IAppStore } from "@/state/redux/store";
 import { useSelector } from "react-redux";
 import { TutorsService } from "@/services/tutors/tutors.service";
-import { IUser } from "@/models/interfaces";
 import ITutorsResponse from "@/services/tutors/interfaces/interfaces";
 
 const Appointments = () => {
 
-  // const userState = useSelector((state : IAppStore)=>  state.user);
-  // const userState: any = sessionStorage.getItem('user') ? sessionStorage.getItem('user')  : JSON.stringify({id:0}) 
+  const userState = useSelector((state: IAppStore) => state.user);
 
-  // if (userState){
-  //   console.log(JSON.parse(userState.id));
-
-  // }
-  // const userObject: (userState);
-  // console.log(userObject.id)
 
 
   //Handle modals
@@ -46,7 +38,7 @@ const Appointments = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const result: ITutorsResponse = await TutorsService.getByUserId('96f9c7e7-cbf2-4e2f-ab9c-21b7e90370c7');
+        const result: ITutorsResponse = await TutorsService.getByUserId(userState.id);
         setTutor(result);
 
       } catch (error) {
@@ -73,18 +65,21 @@ const Appointments = () => {
         <h1 style={{ color: 'white' }}>Tus Mascotas</h1>
         <div className={styles.cardsContainer}>
           {
-            pets.map((pet) => {
-              const date = new Date (pet.dob);
-              const formattedDate = date.toISOString().split('T')[0]
-              return <PetCardComponent key={pet.id} color={pet.color} dob={formattedDate} gender={pet.gender} name={pet.name} specie={pet.specie} breed={pet.breed} id={pet.id} />
-            })
+            pets.length === 0 ?
+              <Typography variant="h5" color="complementary.main">Mascotas no encontradas</Typography>
+              :
+              pets.map((pet) => {
+                const date = new Date(pet.dob);
+                const formattedDate = date.toISOString().split('T')[0]
+                return <PetCardComponent key={pet.id} color={pet.color} dob={formattedDate} gender={pet.gender} name={pet.name} specie={pet.specie} breed={pet.breed} id={pet.id} />
+              })
           }
         </div>
 
 
         <SubmitBtnComponent onClick={handleOpenPetModal} text="Añadir mascota" />
         <ModalComponent open={openPetModal} onClose={handleClosePetModal}>
-          <PetFormComponent tutorId={tutor?.id || 0}/>
+          <PetFormComponent tutorId={tutor?.id || 0} />
         </ModalComponent>
       </Box>
 
@@ -94,6 +89,9 @@ const Appointments = () => {
         <h1>Tus Citas</h1>
         <div className={styles.cardsContainer}>
           {
+            appointments.length === 0 ?
+              <Typography variant="h5" color="complementary.main">Citas no encontradas</Typography>
+              :
             appointments.map(appointment => {
               const date = new Date(appointment.date);
               const formattedDate = date.toISOString().split('T')[0];
@@ -103,7 +101,7 @@ const Appointments = () => {
         </div>
         <SubmitBtnComponent onClick={handleOpenAppointmentModal} text="Agendar cita" />
         <ModalComponent open={openAppointmentModal} onClose={handleCloseAppointmentModal}>
-          <AppointmentForm tutorId={tutor?.id || 0}/>
+          <AppointmentForm tutorId={tutor?.id || 0} />
         </ModalComponent>
       </Box>
     </div>

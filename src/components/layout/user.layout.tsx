@@ -17,6 +17,11 @@ const UserLayout = () => {
   const userState = useSelector((state: IAppStore) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  if(!userState.email){
+    sessionStorage.clear()
+  }
+
   const handleLogout = () => {
     try {
       AuthService.logout();
@@ -25,6 +30,7 @@ const UserLayout = () => {
       navigate("/");
     } catch (error) {}
   };
+
   const [value, setValue] = useState(0);
   return (
     <Box
@@ -44,25 +50,37 @@ const UserLayout = () => {
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: "dark.main",
+          padding: "15px"
         }}
       >
         <Box
           sx={{
             height: "100%",
-            width: "20vw",
+            width: "20%",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <Typography variant="h4" color="ligth.main">
+          <Typography variant="h6" color="ligth.main"
+            onClick={() => {
+              navigate("/");
+            }
+          }
+          sx={{
+            width: "100%",
+            cursor: "pointer",
+            transition: "all 0.3s ease",
+            "&:hover": { color: "complementary.main" },
+          }}
+          >
             Coloque su logo aqui
           </Typography>
         </Box>
         <Box
           sx={{
             height: "100%",
-            width: "60vw",
+            width: "60%",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -77,17 +95,15 @@ const UserLayout = () => {
             sx={{ width: "100%", backgroundColor: "dark.main" }}
           >
             <BottomNavigationAction
-              label="Recents"
+              label="Tu espacio"
               sx={{
                 "& .MuiBottomNavigationAction-label": {
                   color: "ligth.main",
+                  fontSize: "1rem",
+                  fontWeight: "600",
+                  transition: " all 0.3s ease",
                   "&:hover": {
-                    color: "secondary.main", // Cambia el color del label en hover
-                  },
-                },
-                "& .MuiSvgIcon-root": {
-                  "&:hover": {
-                    color: "secondary.main", // Cambia el color del icono en hover
+                    color: "complementary.main", // Cambia el color del label en hover
                   },
                 },
               }}
@@ -98,27 +114,49 @@ const UserLayout = () => {
         <Box
           sx={{
             height: "100%",
-            width: "20vw",
+            width: "20%",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-          {userState.email ? (
-            <Button
-              onClick={() => {
-                handleLogout();
-              }}
+          {userState.id ? (
+            <Box 
               sx={{
-                backgroundColor: "primary.main",
-                color: "ligth.main",
-                transition: "all 0.3s ease",
-                "&:hover": { backgroundColor: "complementary.main" },
+                display: "flex",
+                flexDirection: "row",
+                gap: "5px",
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              {" "}
-              Cerrar sesion{" "}
-            </Button>
+              <Typography variant="body2" color="ligth.main"
+                sx={{
+                  fontSize: "1rem",
+                  fontWeight: "500",
+                  width: "50%",
+                }
+                }
+              >
+                {userState.name}
+              </Typography>
+              <Button
+                onClick={() => {
+                  handleLogout();
+                }}
+                sx={{
+                  backgroundColor: "primary.main",
+                  color: "ligth.main",
+                  transition: "all 0.3s ease",
+                  width: "50%",
+                  "&:hover": { backgroundColor: "complementary.main" },
+                }}
+              >
+                {" "}
+                Cerrar sesion{" "}
+              </Button>
+            </Box>
           ) : (
             <Button
               onClick={() => {
@@ -128,6 +166,7 @@ const UserLayout = () => {
                 backgroundColor: "primary.main",
                 color: "ligth.main",
                 transition: "all 0.3s ease",
+                width: "50%",
                 "&:hover": { backgroundColor: "complementary.main" },
               }}
             >
