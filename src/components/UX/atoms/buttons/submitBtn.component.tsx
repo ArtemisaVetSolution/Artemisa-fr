@@ -9,7 +9,7 @@ interface IProps {
 export default function SubmitBtnComponent ({ text, onClick }: IProps) {
     return (
         <Stack direction="row" spacing={2} sx={{width: '40%'}}>
-            <Button onClick={onClick} type='submit' variant="contained" sx={{backgroundColor: '#EE6C4D', color: '#E0FBFC', width: '100%', fontWeight: '700'}}>{text}</Button>
+            <Button onClick={onClick} type='submit' variant="contained" sx={{backgroundColor: 'complementary.main', color: '#E0FBFC', width: '100%', fontWeight: '700'}}>{text}</Button>
         </Stack>
     );
 }

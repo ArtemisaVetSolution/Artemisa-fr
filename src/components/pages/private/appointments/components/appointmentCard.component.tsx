@@ -6,7 +6,7 @@ import { Typography } from '@mui/material';
 
 interface AppointmentCardProps {
 
-    service: string;
+    service?: string;
     date: string;
     time: string;
     pet: string;

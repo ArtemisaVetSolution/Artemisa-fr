@@ -74,7 +74,9 @@ const Appointments = () => {
         <div className={styles.cardsContainer}>
           {
             pets.map((pet) => {
-              return <PetCardComponent key={pet.id} name={pet.name} species={pet.specie} breed={pet.breed} id={pet.id} />
+              const date = new Date (pet.dob);
+              const formattedDate = date.toISOString().split('T')[0]
+              return <PetCardComponent key={pet.id} color={pet.color} dob={formattedDate} gender={pet.gender} name={pet.name} specie={pet.specie} breed={pet.breed} id={pet.id} />
             })
           }
         </div>
@@ -95,7 +97,7 @@ const Appointments = () => {
             appointments.map(appointment => {
               const date = new Date(appointment.date);
               const formattedDate = date.toISOString().split('T')[0];
-              return <AppointmentCardComponent key={appointment.id} pet={appointment.patient.name} time={appointment.time} date={formattedDate} state={appointment.state} service={appointment.service.name} />
+              return <AppointmentCardComponent key={appointment.id} pet={appointment.patient.name} time={appointment.time} date={formattedDate} state={appointment.state} service={appointment.service?.name} />
             })
           }
         </div>

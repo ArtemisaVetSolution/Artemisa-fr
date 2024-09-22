@@ -7,7 +7,7 @@ import { ControllerRenderProps, FieldError } from 'react-hook-form';
 import { FormHelperText } from '@mui/material';
 
 interface IProps {
-  items: { id: string, name: string }[];
+  items: { id: string | number, name: string }[];
   label: string;
   field: ControllerRenderProps<any>;
   error?: FieldError;

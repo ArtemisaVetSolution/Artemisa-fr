@@ -9,8 +9,8 @@ interface IAppointmentResponse {
     totalPrice: number;
     state: string;
     patient: IPatients;
-    service: IServiceResponse;
-    collaborator:ICollaboratorResponse;
+    service?: IServiceResponse;
+    collaborator?:ICollaboratorResponse;
 }
 
 export default IAppointmentResponse;

@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 
 const useFetch = (serviceFunction: () => Promise<any>, dependencies: any[] = []) => {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<any | null>([]);
 
     useEffect(() => {
         async function fetchData() {

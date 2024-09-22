@@ -5,14 +5,18 @@ import PetInfoComponent from './petInfo.component';
 
 interface PetCardProps {
 
-    name: string;
-    species: string;
-    breed: string;
     id: number;
+    name: string;
+    breed?: string;
+    specie: string;
+    dob?: string;
+    gender: string;
+    weight?: number;
+    color?: string;
 
 }
 
-function PetCardComponent({ name, species, breed, id}: PetCardProps) {
+function PetCardComponent(props: PetCardProps) {
 
     const [openModal, setOpenModal] = useState(false);
 
@@ -29,24 +33,24 @@ function PetCardComponent({ name, species, breed, id}: PetCardProps) {
                     <div className={styles.imageContainer}>
                         <img
                             src='static/assets/paw-print.png'
-                            alt={`${name}'s paw print`}
+                            alt={`${props.name}'s paw print`}
                             className={styles.image}
                         />
                     </div>
-                    <h2 className={styles.name}>{name}</h2>
+                    <h2 className={styles.name}>{props.name}</h2>
                 </div>
                 <div className={styles.infoContainer}>
                     <p className={styles.infoText}>
-                        <span className={styles.infoLabel}>Especie:</span> {species}
+                        <span className={styles.infoLabel}>Especie:</span> {props.specie}
                     </p>
                     <p className={styles.infoText}>
-                        <span className={styles.infoLabel}>Raza:</span> {breed}
+                        <span className={styles.infoLabel}>Raza:</span> {props.breed}
                     </p>
                 </div>
             </div>
         </div>
         <ModalComponent open={openModal} onClose={handleCloseModal} >
-            <PetInfoComponent name={name} />
+            <PetInfoComponent color={props.color} dob={props.dob} gender={props.gender} name={props.name} specie={props.specie} breed={props.breed} id={props.id} setCloseModal={handleCloseModal} />
         </ModalComponent>
         </>
     );

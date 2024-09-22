@@ -16,7 +16,11 @@ const ModalComponent = ({ open, onClose, children }: IProps) => {
             sx={{
                 width: '100%',
                 height: '100%',
-                overflow: 'scroll'
+                overflow: 'scroll',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+
             }}
         >
             { children }
