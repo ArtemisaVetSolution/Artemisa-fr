@@ -8,7 +8,7 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-import { Group } from "lucide-react";
+import { BookA, Group } from "lucide-react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -74,12 +74,12 @@ const UserLayout = () => {
             "&:hover": { color: "complementary.main" },
           }}
           >
-            Coloque su logo aqui
+            Artemisa
           </Typography>
         </Box>
         <Box
           sx={{
-            height: "100%",
+            height: "80%",
             width: "60%",
             display: "flex",
             justifyContent: "center",
@@ -92,7 +92,7 @@ const UserLayout = () => {
             onChange={(event, newValue) => {
               setValue(newValue);
             }}
-            sx={{ width: "100%", backgroundColor: "dark.main" }}
+            sx={{ gap:'10px', width:"100%", backgroundColor: "dark.main" }}
           >
             <BottomNavigationAction
               label="Tu espacio"
@@ -109,7 +109,38 @@ const UserLayout = () => {
               }}
               icon={<Group color="#FFF" />}
             />
+            <BottomNavigationAction
+              label="Tu espacio"
+              sx={{
+                "& .MuiBottomNavigationAction-label": {
+                  color: "ligth.main",
+                  fontSize: "1rem",
+                  fontWeight: "600",
+                  transition: " all 0.3s ease",
+                  "&:hover": {
+                    color: "complementary.main", // Cambia el color del label en hover
+                  },
+                },
+              }}
+              icon={<Group color="#FFF" />}
+            />
+            <BottomNavigationAction
+              label="Sobre nosotros"
+              sx={{
+                "& .MuiBottomNavigationAction-label": {
+                  color: "ligth.main",
+                  fontSize: "1rem",
+                  fontWeight: "600",
+                  transition: " all 0.3s ease",
+                  "&:hover": {
+                    color: "complementary.main", // Cambia el color del label en hover
+                  },
+                },
+              }}
+              icon={<BookA color="#FFF" />}
+            />
           </BottomNavigation>
+          
         </Box>
         <Box
           sx={{
