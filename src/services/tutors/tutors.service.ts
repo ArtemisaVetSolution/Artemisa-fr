@@ -13,4 +13,10 @@ export class TutorsService {
         const { data } = await axiosInstanceManagmentAppoitments.get(`${endpoint}`);
         return data.data;
     }
+
+    static async getAllOrFilter(query?: string): Promise<ITutorsResponse> {
+        const endpoint = endpoints('GET_ALL_OR_FILTER');
+        const { data } = await axiosInstanceManagmentAppoitments.get(`${endpoint}?${query && query}`);
+        return data.data;
+    }
 }

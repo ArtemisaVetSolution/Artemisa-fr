@@ -1,4 +1,4 @@
-import { Gender, Species } from "@/components/pages/private/appointments/enums/pet.enums";
+import { Gender, Species } from "@/models/enums/pet.enums";
 
 export interface ICreatePatient {
     name: string;

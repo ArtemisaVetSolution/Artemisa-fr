@@ -36,11 +36,11 @@ const InputField: React.FC<InputFieldProps> = ({ label, field, error, autoComple
         borderRadius: '20px',
         backgroundColor: 'primary.light',
         '& fieldset': { 
-          borderColor: 'primary.main',
+          borderColor: 'complementary.main',
           borderRadius: '20px',
         },
         '&:hover fieldset': {
-          borderColor: 'primary.main', // Color explícito para hover
+          borderColor: 'complementary.main', // Color explícito para hover
         }
       }}
     />
