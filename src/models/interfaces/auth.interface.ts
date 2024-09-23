@@ -31,6 +31,7 @@ export interface IRegisterResponse {
     cellphone: string;
     identificationNumber: number;
   }
+  statusCode: number;
 }
 
 export interface IRecoverPasswordReq {

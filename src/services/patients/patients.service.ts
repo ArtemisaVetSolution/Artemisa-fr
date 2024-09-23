@@ -2,6 +2,13 @@ import { PATIENTS_API_ENDPOINTS, TEndpointKeys } from './patients.endpoints';
 import { axiosInstanceManagmentAppoitments } from '../../config/axios.config';
 import { ICreatePatient } from './interfaces/createPatient.interface';
 
+export interface ITutor {
+    id: number;
+    name: string;
+    identificationNumber: number;
+    userId: string;
+  }
+
 export interface IPatients {
     id: number;
     name: string;
@@ -11,8 +18,9 @@ export interface IPatients {
     dob: string;
     weight: number;
     alimentation: string;
-    sterilized: boolean;
-    color: string;
+    sterilized: boolean | null;
+    color: string | null;
+    tutor: ITutor; 
 } 
 
 const endpoints = (method: TEndpointKeys, id?: string) => {

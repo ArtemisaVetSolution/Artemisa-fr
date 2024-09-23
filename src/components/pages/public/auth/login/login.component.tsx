@@ -72,12 +72,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
         alignItems: 'center',
         marginTop: '5%',
         width: '100%',
-        height: '65%',
+        height: { xs: '80%', md: '65%' },
         borderRadius: '10px',
         padding: '5%',
-        backgroundColor: "rgba(115, 178, 182, 0.5)",
+        backgroundColor: "rgba(255, 255, 255, 0.8)",
       }}>
-        <Typography variant="h1" align="center" gutterBottom>
+        <Typography variant="h1" align="center" gutterBottom sx={{color: '#10353C'}}>
           Iniciar Sesión
         </Typography>
         <Box sx={{
@@ -85,12 +85,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-          <img src="static/assets/LsiluetaLogin.png" alt="Perro" style={{ width: '20vw', height: '25vh' }} />
+          <img src="static/assets/logo_artemisa_2.png" alt="Perro" style={{ width: '25vw', height: '30vh' }} />
         </Box>
-        <Typography variant="body1" align="center" sx={{ fontWeight: 'bold', marginBottom:'20px' }}>
+        <Typography variant="body1" align="center" sx={{ fontWeight: 'bold', marginBottom:'20px', color: '#10353C' }}>
           ¿No tienes una cuenta?{' '}
           <br />
-          <span onClick={onSwitchToRegister} style={{ cursor: "pointer", color: "#293241" }}>
+          <span onClick={onSwitchToRegister} style={{ cursor: "pointer", color: '#450C23' }}>
             Regístrate aquí
           </span>
         </Typography>
@@ -101,7 +101,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
-              gap: '10%',
+              gap: '2vh',
               width: '100%',
               height: '100%'
             }
@@ -147,7 +147,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
         <Link
           component={RouterLink}
           to={PublicRoutes.RECOVER_PASSWORD}
-          sx={{ cursor: 'pointer', color: 'dark.main', marginTop: '20px', fontSize: '1.3rem', fontWeight: '500' }}
+          sx={{ cursor: 'pointer', color: '#450C23', marginTop: '20px', fontSize: '1.3rem', fontWeight: '500' }}
         >
           Olvidaste tu contraseña?
         </Link>
