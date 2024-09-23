@@ -5,3 +5,7 @@ export enum PublicRoutes {
     RECOVER_PASSWORD = '/recover-password-send-email',
     RECOVER_PASSWORD_NEW_PASS = '/recover-password-new-pass',
 }
+
+export enum PrivateRoutes {
+    ALL_PATIENTS = '/all-patients',
+}

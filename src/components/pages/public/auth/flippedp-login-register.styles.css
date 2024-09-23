@@ -31,3 +31,8 @@
     transform: rotateY(180deg);
   }
   
+  @media (max-width: 768px) {
+    .auth-container {
+        width: 90vw;
+    }
+}

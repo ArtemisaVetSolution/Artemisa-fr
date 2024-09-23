@@ -32,15 +32,15 @@ const InputField: React.FC<InputFieldProps> = ({ label, field, error, autoComple
         },
       }}
       sx={{
-        width: '80%',  // Ancho adaptativo al contenedor padre
-        borderRadius: '20px',
+        width: { xs: '100%', md: '80%' },  
+        borderRadius: '10px',
         backgroundColor: 'primary.light',
         '& fieldset': { 
           borderColor: 'complementary.main',
-          borderRadius: '20px',
+          borderRadius: '10px',
         },
         '&:hover fieldset': {
-          borderColor: 'complementary.main', // Color explícito para hover
+          borderColor: 'complementary.main',
         }
       }}
     />
