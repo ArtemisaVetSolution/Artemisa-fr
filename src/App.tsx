@@ -22,22 +22,23 @@ function App() {
     <ThemeProvider theme={materialTheme}>
       <CssBaseline enableColorScheme />
       <RoutesPlusNotFound>
-        <Route element={<Guard isForAuth={false} />}>
+        <Route element={<Guard isForAuth/>}>
           <Route path={PublicRoutes.LOGIN} element={<Auth initialView="login" />} />
           <Route path={PublicRoutes.REGISTER} element={<Auth initialView="register" />} />
           <Route path={PrivateRoutes.ALL_PATIENTS} element={<PatientsComponent/>}></Route>
-          <Route path={PublicRoutes.RECOVER_PASSWORD} element={<RecoverPasswordEmail />}></Route>
-          <Route path={PublicRoutes.RECOVER_PASSWORD_NEW_PASS} element={<RecoverPasswordNewPassword />}></Route>
         </Route>
-        <Route element={<Guard isForAuth={true} />}>
+        <Route element={<Guard isForAuth />}>
           {/* <Route path={PublicRoutes.RECOVER_PASSWORD_NEW_PASS} element={<RecoverPasswordNewPassword />}></Route> */}
         </Route>
-
+        <Route path={PublicRoutes.RECOVER_PASSWORD} element={<RecoverPasswordEmail />}></Route>
+        <Route path={PublicRoutes.RECOVER_PASSWORD_NEW_PASS} element={<RecoverPasswordNewPassword />}></Route>
 
         <Route element={<UserLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/appointments" element={<Appointments />} />
-          <Route path="/admin/appointments" element={<AdminAppointments />} />
+          <Route element={<Guard />}>
+            <Route path="/appointments" element={<Appointments />} />
+            <Route path="/admin/appointments" element={<AdminAppointments />} />
+          </Route>
         </Route>
       </RoutesPlusNotFound>
     </ThemeProvider>
