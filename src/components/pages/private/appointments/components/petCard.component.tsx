@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import styles from '../styles.module.css'
 import ModalComponent from './modal.components';
-import PetInfoComponent from './petInfo.component';
+import PetInfoComponent from '../../../../UX/molecules/modals/Patients/petInfo.component';
+
 
 interface PetCardProps {
 

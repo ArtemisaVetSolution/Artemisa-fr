@@ -32,4 +32,11 @@ export class PatientsService {
         const { data } = await axiosInstanceManagmentAppoitments.post(endpoint, body);
         return data;
     }
+
+    static async update(body: ICreatePatient, id: string) {
+        const endpoint = endpoints('UPDATE', id)
+        const { data } = await axiosInstanceManagmentAppoitments.put(endpoint, body);
+        return data;
+    }
+    
 }

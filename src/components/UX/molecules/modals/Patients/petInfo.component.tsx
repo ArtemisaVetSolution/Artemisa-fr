@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
-import styles from '../styles.module.css'
+import styles from '@/components/pages/private/appointments/styles.module.css';
 import SubmitBtnComponent from '@/components/UX/atoms/buttons/submitBtn.component';
 import { useState } from 'react';
 import useFetch from '@/hooks/fetch.hook';
@@ -9,6 +9,9 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import IHistoryResponse from '@/services/medicalHistory/interfaces/historyResponse.interface';
 import ITestResultResponse from '@/services/testResults/interfaces/testResultResponse.interface';
 import { TestResultsService } from '@/services/testResults/testResults.service';
+import { Pen } from 'lucide-react';
+import ModalComponent from '@/components/pages/private/appointments/components/modal.components';
+import PetFormComponent from '@/components/pages/private/appointments/components/petForm.component';
 
 interface IProps {
   id: number;
@@ -20,6 +23,8 @@ interface IProps {
   weight?: number;
   color?: string;
   setCloseModal: () => void;
+  tutor?: string;
+  idNumber?: string;
 }
 
 export interface IHistoryFormInput {
@@ -27,12 +32,16 @@ export interface IHistoryFormInput {
 }
 
 const PetInfoComponent = (props: IProps) => {
-
+  const [hover, setHover] = useState(false);
   const [getClinicalHistory, setGetClinicalHistory] = useState(false)
   const [historyId, setHistoryId] = useState('');
   const [loading, setLoading] = useState(false);
   const [getTestResult, setGetTestResult] = useState(false);
   const [testId, setTestId] = useState('');
+  const [openPetModal, setOpenPetModal] = useState(false);
+
+  const handleOpenPetModal = () => setOpenPetModal(true);
+  const handleClosePetModal = () => setOpenPetModal(false);
 
   const clinicalHistory: IHistoryResponse[] = useFetch(() => MedicalHistoryService.getAllOrFilter(`patientId=${props.id}`), [getClinicalHistory]);
 
@@ -135,9 +144,27 @@ const PetInfoComponent = (props: IProps) => {
 
 
   return (
-    <div className={styles.petInfoContainer}>
+    <div className={styles.petInfoContainer} style={{position: 'relative'}}>
+      <Pen size={30} style={{
+        position: 'absolute',
+        top: '2rem',
+        right: '2rem',
+        cursor: 'pointer',
+        transition: '3 ease',
+        color: hover ? 'red' : 'black'
+      }} onClick={handleOpenPetModal}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)} />
       <Typography variant='h3'>{props.name}</Typography>
       <div className={styles.petInfo}>
+        { props.tutor && <Typography>
+          <span className={styles.infoLabel}>Tutor:</span> {props.tutor}
+        </Typography>
+          }
+          { props.idNumber && <Typography>
+          <span className={styles.infoLabel}>Nº de identificación:</span> {props.idNumber}
+        </Typography>
+          }
         <Typography>
           <span className={styles.infoLabel}>Especie:</span> {props.specie}
         </Typography>
@@ -192,6 +219,9 @@ const PetInfoComponent = (props: IProps) => {
           <SubmitBtnComponent text={loading ? 'Ver archivo' : 'Confirmar'} />
         </form>
       }
+      <ModalComponent open={openPetModal} onClose={handleClosePetModal}>
+          <PetFormComponent tutorId={1234} isEdit/>
+      </ModalComponent>
     </div>
   )
 }
