@@ -2,7 +2,6 @@ import { ServicesService } from "../../../../../services/services/services.servi
 import { useForm, SubmitHandler, Controller, useWatch } from "react-hook-form"
 import styles from '../styles.module.css'
 import BasicSelect from "../../../../UX/atoms/inputs/select.component";
-import DatePicker from "../../../../UX/atoms/inputs/datePicker.component";
 import { useEffect, useState } from "react";
 import { Dayjs } from "dayjs";
 import { CollaboratorsService } from "../../../../../services/collaborator/collaborators.service";
@@ -13,6 +12,7 @@ import { AppointmentsService } from "../../../../../services/appointments/appoin
 import RowRadio from "../../../../UX/atoms/radio/radio.component";
 import { ICreateAppointment } from "../../../../../services/appointments/interfaces/appointment.interfaces";
 import { ConfirmationModal } from "@/components/UX/atoms/modals/confirmationModal.component";
+import DatePickerComp from "@/components/UX/atoms/inputs/datePicker.component";
 
 interface IFormInput {
     service: string;
@@ -150,7 +150,7 @@ const AppointmentForm = ({ tutorId }: IProps ) => {
                     message: 'Campo requerido'
                 },
             }} render={({ field }) => (
-                <DatePicker field={field} label='Fecha' options='disablePast' error={errors.date} />
+                <DatePickerComp field={field} label='Fecha' options='disablePast' error={errors.date} />
             )}
             />
 

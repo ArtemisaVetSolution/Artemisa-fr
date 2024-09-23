@@ -5,7 +5,7 @@ interface SubmitButtonProps {
     text: string; 
     variant?: "text" | "outlined" | "contained"; 
     color?: "primary" | "secondary" | "success" | "warning" | "error" | "info" | "default" | "complementary" | "ligth" | "dark";
-    colorProperties: "main" | "dark" | "light";
+    colorProperties?: "main" | "dark" | "light";
     disabled?: boolean; 
     onClick?: () => void; 
   }
@@ -22,7 +22,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
     <Button
       type="submit"
       variant={variant}
-      sx={{ backgroundColor: `${color}.${colorProperties}`, fontsize: '1.5rem', fontWeight: 'bold', padding: '10px 20px', borderRadius: '10px' }}
+      sx={{ backgroundColor: `${color}.${colorProperties}`, fontsize: '1.5rem', fontWeight: 'bold', padding: '10px 20px', borderRadius: '8px'}}
       disabled={disabled}
       onClick={onClick}>
       {text}

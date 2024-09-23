@@ -9,6 +9,7 @@ import RecoverPasswordNewPassword from "./components/pages/public/auth/recover-p
 import Guard from "./components/guards/user-and-token-validation.guard";
 import UserLayout from "./components/layout/user.layout";
 import Appointments from './components/pages/private/appointments/appointments.component';
+import AdminAppointments from "./components/pages/private/adminAppointments/adminAppointments.component";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 
 
@@ -28,7 +29,8 @@ function App() {
         </Route>
         <Route element={<UserLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/appointments" element={<Appointments />} />
+          <Route path="/appointments" element={<Appointments/>}/>
+          <Route path="/admin/appointments" element={<AdminAppointments/>}/>
         </Route>
       </RoutesPlusNotFound>
     </ThemeProvider>

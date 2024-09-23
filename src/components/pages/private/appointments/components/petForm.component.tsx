@@ -4,7 +4,7 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import styles from '../styles.module.css'
 import InputField from "@/components/UX/atoms/inputs/inputField.component";
 import BasicSelect from "@/components/UX/atoms/inputs/select.component";
-import { Gender, Species } from "../enums/pet.enums";
+import { Gender, Species } from "../../../../../models/enums/pet.enums";
 import DatePickerComp from "@/components/UX/atoms/inputs/datePicker.component";
 import SubmitBtnComponent from "@/components/UX/atoms/buttons/submitBtn.component";
 import { ICreatePatient } from "@/services/patients/interfaces/createPatient.interface";
@@ -120,12 +120,7 @@ const PetFormComponent = ({ tutorId }: IProps) => {
                 <BasicSelect label={'Sexo'} items={genderWithId} field={field} error={errors.gender} />
             )} />
 
-            <Controller name='dob' control={control} rules={{
-                required: {
-                    value: true,
-                    message: 'Campo requerido'
-                }
-            }} render={({ field }) => (
+            <Controller name='dob' control={control} render={({ field }) => (
                 <DatePickerComp field={field} label='Fecha de nacimiento' options='disableFuture' error={errors.dob}/>
             )}
             />
