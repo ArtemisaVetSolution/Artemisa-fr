@@ -129,7 +129,7 @@ export default function PatientsComponent() {
     return (
         <Container maxWidth={false} sx={{
             width: '100vw',
-            minHeight: '100vh',
+            high: 'auto',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
@@ -137,7 +137,7 @@ export default function PatientsComponent() {
             backgroundColor: '#73B2B6',
             padding: '2%',
         }}>
-            <Typography variant="h1" component="h1" gutterBottom sx={{color: '#450C23'}}>
+            <Typography variant="h1" component="h1" gutterBottom sx={{color: 'primary.main'}}>
                 Pacientes
             </Typography>
             <Box gap={2} mb={2} sx={{
