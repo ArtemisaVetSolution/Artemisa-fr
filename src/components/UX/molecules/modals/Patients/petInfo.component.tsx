@@ -9,10 +9,10 @@ import { useState } from 'react';
 // import ITestResultResponse from '@/services/testResults/interfaces/testResultResponse.interface';
 // import { TestResultsService } from '@/services/testResults/testResults.service';
 import { Pen } from 'lucide-react';
-import ModalComponent from '@/components/pages/private/appointments/components/modal.components';
 import PetFormComponent from '@/components/pages/private/appointments/components/petForm.component';
 import ClinicalHistory from './Clinical-history.component';
 import TestResults from './Test-results.component';
+import ModalComponent from '@/components/UX/atoms/modals/modal.components';
 
 interface IProps {
   id: number;
