@@ -2,7 +2,7 @@ import SubmitBtnComponent from "@/components/UX/atoms/buttons/submitBtn.componen
 import AppointmentForm from "./components/form.component";
 import PetFormComponent from "./components/petForm.component";
 import { useEffect, useState } from "react";
-import ModalComponent from "./components/modal.components";
+import ModalComponent from "../../../UX/atoms/modals/modal.components";
 import { Box, Typography } from "@mui/material";
 import styles from './styles.module.css'
 import PetCardComponent from "./components/petCard.component";

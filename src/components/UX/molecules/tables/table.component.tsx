@@ -1,5 +1,6 @@
 import {Table, Paper, TableContainer, TableHead, TableRow, TableCell, TableBody, TablePagination, Typography } from "@mui/material";
 import { useState } from "react";
+import styles from './styles.module.css';
 
 interface Column {
   key: string;
@@ -9,9 +10,11 @@ interface Column {
 interface IProps {
     columns: Column[];
     rows: any[];
+    onRowClick?: (rowId: string) => void;
+    
 }
 
-export default function TableComponent({ columns, rows }: IProps) {
+export default function TableComponent({ columns, rows, onRowClick }: IProps) {
 
 
     const [page, setPage] = useState(0);
@@ -25,7 +28,8 @@ export default function TableComponent({ columns, rows }: IProps) {
       setRowsPerPage(+event.target.value);
       setPage(0);
     };
-  
+    
+ 
     return (
       <Paper sx={{ width: '90%', overflow: 'visible', height: '90%' }}>
         <TableContainer sx={{ height: '100%', overflowY:'scroll', backgroundColor:'ligth.main'}}>
@@ -51,11 +55,11 @@ export default function TableComponent({ columns, rows }: IProps) {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id} className={styles.tableRow} onClick={ onRowClick ? () => onRowClick(row.id) : undefined  }>
                       {columns.map((column) => {
                         const value = row[column.key];
                         return (
-                          <TableCell key={column.key} sx={{backgroundColor: 'ligth.main'}} >
+                          <TableCell key={column.key}   >
                             <Typography variant='subtitle2'>{value}</Typography>
                           </TableCell>
                         );

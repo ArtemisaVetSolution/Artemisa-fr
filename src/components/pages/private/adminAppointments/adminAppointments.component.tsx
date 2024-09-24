@@ -1,4 +1,3 @@
-import SubmitBtnComponent from "@/components/UX/atoms/buttons/submitBtn.component";
 import DatePickerComp from "@/components/UX/atoms/inputs/datePicker.component";
 import InputField from "@/components/UX/atoms/inputs/inputField.component";
 import BasicSelect from "@/components/UX/atoms/inputs/select.component";
@@ -15,6 +14,8 @@ import { useState } from "react";
 import IAppointmentResponse from "@/services/appointments/interfaces/appointmentResponse.interface";
 import { AppointmentsService } from "@/services/appointments/appointments.service";
 import SubmitButton from "@/components/UX/atoms/buttons/submitButtonLoginRegister.component";
+import ModalComponent from "@/components/UX/atoms/modals/modal.components";
+import SingleAppointmentComponent from "./components/singleAppointment.component";
 
 
 interface IFormInput {
@@ -27,8 +28,21 @@ interface IFormInput {
 
 const AdminAppointments = () => {
 
+    const [selectedRowId, setSelectedRowId] = useState<string>('');
+    const [openModal, setOpenModal] = useState(false);
+    const [appointment, setAppointment] = useState<IAppointmentResponse | null>(null)
+
+    const handleOpenModal = () => setOpenModal(true);
+    const handleCloseModal = () => setOpenModal(false);
+
+    const handleRowClick = async (rowId: string) => {
+        const appointment = await AppointmentsService.getById(rowId);
+        setAppointment(appointment);
+        setSelectedRowId(rowId);
+        handleOpenModal();
+    };
+
     const [query, setQuery] = useState('');
-    console.log('query', query);
 
     const { control, handleSubmit, reset,
         formState: { errors }
@@ -53,7 +67,7 @@ const AdminAppointments = () => {
         }
     })
 
-    const columns = [{key: 'patientName', label: 'Nombre del paciente'}, {key: 'service', label: 'Servicio'}, {key: 'date', label: 'Fecha'},{key: 'time', label:'Hora'}, {key: 'collaborator', label: 'Collaborador'}, {key: 'state', label: 'Estado'}];
+    const columns = [{ key: 'patientName', label: 'Nombre del paciente' }, { key: 'service', label: 'Servicio' }, { key: 'date', label: 'Fecha' }, { key: 'time', label: 'Hora' }, { key: 'collaborator', label: 'Collaborador' }, { key: 'state', label: 'Estado' }];
 
     const rows = appointments.map(appointment => {
         const date = new Date(appointment.date);
@@ -72,21 +86,22 @@ const AdminAppointments = () => {
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
         try {
             let queryList: string[] = [];
-            if(data.service) queryList.push(`serviceId=${data.service}`);
+            if (data.service) queryList.push(`serviceId=${data.service}`);
 
-            if(data.state) {
+            if (data.state) {
                 if (data.state === 'En progreso') data.state = 'En%20progreso'
-                queryList.push(`state=${data.state}`)};
-                
-            if(data.date) {
+                queryList.push(`state=${data.state}`)
+            };
+
+            if (data.date) {
                 const date = new Date(data.date);
                 const formattedDate = date.toISOString().split('T')[0]
                 queryList.push(`date=${formattedDate}`);
             }
 
-            if(data.collaborator) queryList.push(`collaboratorId=${data.collaborator}`);
+            if (data.collaborator) queryList.push(`collaboratorId=${data.collaborator}`);
 
-            if(data.tutor) queryList.push(`tutorIdentification=${data.tutor}`)
+            if (data.tutor) queryList.push(`tutorIdentification=${data.tutor}`)
             setQuery(queryList.join('&'));
 
         } catch (error) {
@@ -97,20 +112,21 @@ const AdminAppointments = () => {
     const handleReset = () => {
         // Restablece los campos del formulario a sus valores predeterminados
         reset({
-          service: "",
-          date: undefined,
-          tutor: "",
-          state: "",
-          collaborator: "",
+            service: "",
+            date: undefined,
+            tutor: "",
+            state: "",
+            collaborator: "",
         });
 
         setQuery('');
 
-      };
+    };
+
 
     return (
-        <div style={{height: '90vh'}}>
-            <Typography variant={'h2'} sx={{margin: '2rem'}}>Citas</Typography>
+        <div style={{ height: '90vh' }}>
+            <Typography variant={'h2'} sx={{ margin: '2rem' }}>Citas</Typography>
             <form className={styles.filterForm} onSubmit={handleSubmit(onSubmit)}>
                 <Controller name='service' control={control} defaultValue="" render={({ field }) => (
                     <BasicSelect items={servicesNames} label={'Servicio'} field={field} error={errors.service} />
@@ -137,13 +153,19 @@ const AdminAppointments = () => {
                 )}
                 />
                 <SubmitButton text={'Aplicar'} color={'complementary'} colorProperties='main' />
-                <SubmitButton text={'Borrar filtros'} onClick={handleReset}/>
+                <SubmitButton text={'Borrar filtros'} onClick={handleReset} />
 
             </form>
             <div className={styles.tableContainer}>
-            <TableComponent columns={columns} rows={rows}/>   
+                <TableComponent columns={columns} rows={rows} onRowClick={handleRowClick} />
             </div>
-           
+            {appointment &&
+                <ModalComponent open={openModal} onClose={handleCloseModal}>
+                    <SingleAppointmentComponent appointment={appointment}></SingleAppointmentComponent>
+                </ModalComponent>
+            }
+
+
         </div>
 
     )
