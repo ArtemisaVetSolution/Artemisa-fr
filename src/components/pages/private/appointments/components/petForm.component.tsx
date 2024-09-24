@@ -42,9 +42,10 @@ interface IProps {
   petGender?: string;
   color?: string;
   alimentation?: string;
+  setData?: (val: boolean) => void;
 }
 
-const PetFormComponent = ({ id, tutorId, isEdit, name, specie, breed, petGender, color, alimentation }: IProps) => {
+const PetFormComponent = ({ id, tutorId, isEdit, name, specie, breed, petGender, color, alimentation, setData }: IProps) => {
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
@@ -119,6 +120,11 @@ const PetFormComponent = ({ id, tutorId, isEdit, name, specie, breed, petGender,
       console.log(error);
       setModalText("Algo salió mal");
       handleOpenModal();
+    }
+    finally {
+      setModalText("Mascota actualizada!");
+      setData && setData(true);
+      handleCloseModal();
     }
   };
   

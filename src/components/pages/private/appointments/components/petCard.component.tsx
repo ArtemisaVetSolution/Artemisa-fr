@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from '../styles.module.css'
 import ModalComponent from '../../../../UX/atoms/modals/modal.components';
 import PetInfoComponent from '../../../../UX/molecules/modals/Patients/petInfo.component';
@@ -15,6 +15,7 @@ interface PetCardProps {
     weight?: number;
     color?: string;
     tutorId?: string;
+    setData?: (val: boolean) => void;
 
 }
 
@@ -53,7 +54,7 @@ function PetCardComponent(props: PetCardProps) {
             </div>
         </div>
         <ModalComponent open={openModal} onClose={handleCloseModal} >
-            <PetInfoComponent  color={props.color} dob={props.dob} gender={props.gender} name={props.name} specie={props.specie} breed={props.breed} id={props.id} setCloseModal={handleCloseModal} />
+            <PetInfoComponent setData={props.setData} color={props.color} dob={props.dob} gender={props.gender} name={props.name} specie={props.specie} breed={props.breed} id={props.id} setCloseModal={handleCloseModal} />
         </ModalComponent>
         </>
     );
