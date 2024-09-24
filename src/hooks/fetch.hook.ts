@@ -20,3 +20,6 @@ const useFetch = (serviceFunction: () => Promise<any>, dependencies: any[] = [])
 };
 
 export default useFetch;
+
+
+
