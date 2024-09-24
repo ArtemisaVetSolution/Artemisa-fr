@@ -35,11 +35,13 @@ function App() {
 
         <Route element={<UserLayout />}>
           <Route path="/" element={<Home />} />
-          <Route element={<Guard />}>
+          <Route element={<Guard privateValidation/>}>
             <Route path="/appointments" element={<Appointments />} />
+          </Route>
+          <Route element={<Guard privateValidation isAdminValidation/>}>
             <Route path="/admin/appointments" element={<AdminAppointments />} />
             <Route path={PrivateRoutes.ALL_PATIENTS} element={<PatientsComponent/>}></Route>
-          </Route>
+          </Route>  
         </Route>
       </RoutesPlusNotFound>
     </ThemeProvider>
