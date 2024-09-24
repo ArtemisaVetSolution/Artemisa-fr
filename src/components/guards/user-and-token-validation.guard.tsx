@@ -28,7 +28,7 @@ const Guard = ({ isForAuth, privateValidation, isAdminValidation }: IProps) => {
       sessionStorage.removeItem('token');
       sessionStorage.removeItem('user');
       console.log(decodedToken);
-      navigate('/login');
+      return <Navigate to={'/login'} />;
     }
   }
 
