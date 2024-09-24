@@ -54,7 +54,7 @@ const RecoverPasswordEmail = () => {
             backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)),url(static/assets/fondo_auth.jpg)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            height: '140vh',
+            height: '100vh',
             width: '100vw',
             display: 'flex',
             justifyContent: 'center'
@@ -66,12 +66,12 @@ const RecoverPasswordEmail = () => {
                 alignItems: 'center',
                 marginTop: '2%',
                 width: '70%',
-                height: '65%',
+                height: '80%',
                 borderRadius: '10px',
                 padding: '5%',
                 backgroundColor: "rgba(255, 255, 255, 0.8)",
             }}>
-                <Typography variant="h1" align="center" gutterBottom sx={{color: '#10353C'}}>
+                <Typography variant="h1" align="center" gutterBottom sx={{ color: '#10353C' }}>
                     Recuperar Contraseña
                 </Typography>
                 <Box sx={{
@@ -99,6 +99,7 @@ const RecoverPasswordEmail = () => {
                         defaultValue=""
                         render={({ field }) => (
                             <InputField
+                                backgroundColor='primary.light'
                                 label="Correo electrónico"
                                 field={field}
                                 error={errors.email}

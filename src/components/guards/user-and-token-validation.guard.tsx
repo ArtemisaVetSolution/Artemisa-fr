@@ -6,46 +6,62 @@ import { useNavigate, Outlet, Navigate } from "react-router-dom"
 interface IProps {
   privateValidation?: boolean;
   isForAuth?: boolean,
+  isAdminValidation?: boolean;
 }
 interface IToken {
-  email?: string;
+  email: string;
   exp: number;
-  iat?: number;
-  id?: string;
-  role?: string;
-  permissions?: string[];
+  iat: number;
+  id: string;
+  role: string;
+  permissions: string[];
 }
 
 
-const Guard = ({ isForAuth }: IProps) => {
+const Guard = ({ isForAuth, privateValidation, isAdminValidation }: IProps) => {
   const navigate = useNavigate();
   const token = sessionStorage.getItem('token');
-  let decodedToken: IToken = { exp: 0 };
-  let user: IUser = emptyUserState;
 
   if (token && token !== '') {
-    decodedToken = jwtDecode(token);
+    const decodedToken: IToken = jwtDecode(token);
     if (decodedToken.exp * 1000 < new Date().getTime()) {
       sessionStorage.removeItem('token');
       sessionStorage.removeItem('user');
-      navigate('/login');
+      console.log(decodedToken);
+      return <Navigate to={'/login'} />;
     }
   }
 
-  if (!token || sessionStorage.getItem('user') === null) {
-    if (!isForAuth) {
+  if(isForAuth) {
+    if( token && sessionStorage.getItem('user') !== null) {
+      return <Navigate to={'/'} />;
+    }
+    else {
+    return <Outlet />;
+    }
+  }
+  else if(privateValidation) {
+    if(isAdminValidation) {
+      if(token && sessionStorage.getItem('user') !== null) {
+        const user: IUser = JSON.parse(sessionStorage.getItem('user') as string);
+        if(user.role === 'admin') {
+          return <Outlet />;
+        }
+        else {
+          return <Navigate to= {'/login'}/>;
+        }
+      }
+      else {
+        return <Navigate to= {'/login'}/>;
+      }
+    }
+    else if(token && sessionStorage.getItem('user') !== null) {
       return <Outlet />;
     }
-    navigate('/login');
+    else {
+      return <Navigate to= {'/login'}/>;
+    }
   }
-
-  user = sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user') ?? '') : emptyUserState;
-
-  if (isForAuth && user.id !== '') {
-    return <Navigate to={'/'} />;
-  }
-
-  return <Outlet />;
 };
 
 export default Guard;

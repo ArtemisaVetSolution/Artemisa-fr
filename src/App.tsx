@@ -26,7 +26,7 @@ function App() {
         <Route element={<Guard isForAuth/>}>
           <Route path={PublicRoutes.LOGIN} element={<Auth initialView="login" />} />
           <Route path={PublicRoutes.REGISTER} element={<Auth initialView="register" />} />
-          <Route path={PrivateRoutes.ALL_PATIENTS} element={<PatientsComponent/>}></Route>
+          
         </Route>
         <Route element={<Guard isForAuth />}>
           {/* <Route path={PublicRoutes.RECOVER_PASSWORD_NEW_PASS} element={<RecoverPasswordNewPassword />}></Route> */}
@@ -36,11 +36,14 @@ function App() {
 
         <Route element={<UserLayout />}>
           <Route path="/" element={<Home />} />
-          <Route element={<Guard />}>
+          <Route element={<Guard privateValidation/>}>
             <Route path="/appointments" element={<Appointments />} />
+          </Route>
+          <Route element={<Guard privateValidation isAdminValidation/>}>
             <Route path="/admin/appointments" element={<AdminAppointments />} />
             <Route path="/history" element={<MedicalHistoryForm />} />
-          </Route>
+            <Route path={PrivateRoutes.ALL_PATIENTS} element={<PatientsComponent/>}></Route>
+          </Route>  
         </Route>
       </RoutesPlusNotFound>
     </ThemeProvider>
