@@ -25,7 +25,7 @@ const Appointments = () => {
   //Handle modals
   const [openPetModal, setOpenPetModal] = useState(false);
   const [openAppointmentModal, setOpenAppointmentModal] = useState(false);
-
+  const [data, setData] = useState<boolean>(false);
   const handleOpenPetModal = () => setOpenPetModal(true);
   const handleClosePetModal = () => setOpenPetModal(false);
 
@@ -71,7 +71,7 @@ const Appointments = () => {
               pets.map((pet) => {
                 const date = new Date(pet.dob);
                 const formattedDate = date.toISOString().split('T')[0]
-                return <PetCardComponent key={pet.id} tutorId={`${tutor?.id}`} color={pet.color} dob={formattedDate} gender={pet.gender} name={pet.name} specie={pet.specie} breed={pet.breed} id={pet.id} />
+                return <PetCardComponent key={pet.id} setData={setData} tutorId={`${tutor?.id}`} color={pet.color ? pet.color : ""} dob={formattedDate} gender={pet.gender} name={pet.name} specie={pet.specie} breed={pet.breed} id={pet.id} />
               })
           }
         </div>

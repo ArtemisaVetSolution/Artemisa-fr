@@ -26,6 +26,7 @@ interface IProps {
   setCloseModal: () => void;
   tutorId?: string;
   idNumber?: string;
+  setData?: (val: boolean) => void;
 }
 
 export interface IHistoryFormInput {
@@ -111,7 +112,7 @@ const PetInfoComponent = (props: IProps) => {
         <TestResults id={props.id}/>
       }
       <ModalComponent open={openPetModal} onClose={handleClosePetModal}>
-          <PetFormComponent tutorId={1234} isEdit name={props.name} specie={props.specie} breed={props.breed} petGender={props.gender}  color={props.color} id={props.id}/>
+          <PetFormComponent tutorId={1234} setData={props.setData} isEdit name={props.name} specie={props.specie} breed={props.breed} petGender={props.gender}  color={props.color} id={props.id}/>
       </ModalComponent>
     </div>
   )

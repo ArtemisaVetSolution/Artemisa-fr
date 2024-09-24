@@ -8,7 +8,7 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-import { BookA, Group } from "lucide-react";
+import { BookA, Group } from "lucide-react"; 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -95,7 +95,7 @@ const UserLayout = () => {
             sx={{ gap:'10px', width:"100%", backgroundColor: "dark.main" }}
           >
             <BottomNavigationAction
-              label="Tu espacio"
+              label="Mi espacio"
               sx={{
                 "& .MuiBottomNavigationAction-label": {
                   color: "ligth.main",
@@ -108,9 +108,12 @@ const UserLayout = () => {
                 },
               }}
               icon={<Group color="#FFF" />}
+              onClick={() => {
+                navigate("/appointments");
+              }}
             />
             <BottomNavigationAction
-              label="Tu espacio"
+              label="Admin"
               sx={{
                 "& .MuiBottomNavigationAction-label": {
                   color: "ligth.main",
@@ -123,6 +126,29 @@ const UserLayout = () => {
                 },
               }}
               icon={<Group color="#FFF" />}
+              onClick={() => {
+                navigate("/admin/appointments");
+              }
+            }
+            />
+            <BottomNavigationAction
+              label="Pacientes"
+              sx={{
+                "& .MuiBottomNavigationAction-label": {
+                  color: "ligth.main",
+                  fontSize: "1rem",
+                  fontWeight: "600",
+                  transition: " all 0.3s ease",
+                  "&:hover": {
+                    color: "complementary.main", // Cambia el color del label en hover
+                  },
+                },
+              }}
+              icon={<Group color="#FFF" />}
+              onClick={() => {
+                navigate("/all-patients");
+              }
+            }
             />
             <BottomNavigationAction
               label="Sobre nosotros"
