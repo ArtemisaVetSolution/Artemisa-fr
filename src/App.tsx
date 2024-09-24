@@ -12,6 +12,7 @@ import Appointments from './components/pages/private/appointments/appointments.c
 import AdminAppointments from "./components/pages/private/adminAppointments/adminAppointments.component";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import PatientsComponent from "./components/pages/private/patients/patients.component";
+import MedicalHistoryForm from "./components/pages/private/adminAppointments/components/medicalHistoryForm.component";
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
           </Route>
           <Route element={<Guard privateValidation isAdminValidation/>}>
             <Route path="/admin/appointments" element={<AdminAppointments />} />
+            <Route path="/history" element={<MedicalHistoryForm />} />
             <Route path={PrivateRoutes.ALL_PATIENTS} element={<PatientsComponent/>}></Route>
           </Route>  
         </Route>

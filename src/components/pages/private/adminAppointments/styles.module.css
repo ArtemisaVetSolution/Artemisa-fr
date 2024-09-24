@@ -37,11 +37,31 @@
   .infoTag {
     font-weight: bold;
   }
+
+.historyFormGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem; 
+  width: 100%;
+  justify-items: center;
+  padding: 2rem;
+}
   
 
   @media (max-width: 768px) {
-    .gridContainer {
+    .gridContainer,
+    .historyFormGrid {
       grid-template-columns: 1fr; 
     }
   }
+
+
+
+  .flexColumn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   

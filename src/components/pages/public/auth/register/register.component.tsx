@@ -81,7 +81,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
                 alignItems: 'center',
                 marginTop: '5%',
                 width: '100%',
-                height: {  md: '83%' },
+                height: { md: '83%' },
                 borderRadius: '10px',
                 padding: '5%',
                 backgroundColor: "rgba(255, 255, 255, 0.8)",
@@ -119,6 +119,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
                         defaultValue=""
                         render={({ field }) => (
                             <InputField
+                                backgroundColor='primary.light'
                                 label="Nombre completo"
                                 field={field}
                                 error={errors.name}
@@ -131,6 +132,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
                         defaultValue=""
                         render={({ field }) => (
                             <InputField
+                                backgroundColor='primary.light'
                                 label="Correo electrónico"
                                 field={field}
                                 error={errors.email}
@@ -143,6 +145,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
                         defaultValue=""
                         render={({ field }) => (
                             <InputField
+                                backgroundColor='primary.light'
                                 label="Contraseña"
                                 type={showPassword ? 'text' : 'password'}
                                 field={field}
@@ -163,6 +166,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
                         control={control}
                         render={({ field }) => (
                             <InputField
+                                backgroundColor='primary.light'
                                 label="Número de identificación"
                                 field={field}
                                 error={errors.identificationNumber}

@@ -23,7 +23,9 @@ const DatePickerComp = ({ field, label, options, error }: IProps) => {
         value={field.value}
         onChange={(newValue) => newValue && field.onChange(newValue)}
         sx={{
-          width: '100%',
+          width: { xs: '100%', md: '80%' },
+          borderRadius: '10px',
+          
           '& .MuiInputLabel-root': {
             color: '#293241', // Color normal del label
           },
@@ -48,7 +50,6 @@ const DatePickerComp = ({ field, label, options, error }: IProps) => {
           },
         }}
         
-
       />
     </LocalizationProvider>
   );

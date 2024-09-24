@@ -7,7 +7,7 @@ import { ControllerRenderProps, FieldError } from 'react-hook-form';
 import { FormHelperText } from '@mui/material';
 
 interface IProps {
-  items: { id: string | number, name: string }[];
+  items: { id: string | number , name: string }[];
   label: string;
   field: ControllerRenderProps<any>;
   error?: FieldError;
@@ -16,7 +16,7 @@ interface IProps {
 const BasicSelect = ({ items, label, field, error }: IProps) => {
   return (
     <Box sx={{
-      minWidth: 120, width: '100%', '& .MuiOutlinedInput-root': {
+      minWidth: 120, width: { xs: '100%', md: '80%' }, '& .MuiOutlinedInput-root': {
         '&:hover fieldset': {
           borderColor: '#EE6C4D',
         },
@@ -27,6 +27,7 @@ const BasicSelect = ({ items, label, field, error }: IProps) => {
     }}>
       <FormControl fullWidth>
         <InputLabel id="basic-select-label" sx={{
+          
           color: '#293241', '&.Mui-focused': {
             color: '#293241', // Color cuando está enfocado
           }
@@ -38,6 +39,7 @@ const BasicSelect = ({ items, label, field, error }: IProps) => {
           label={label}
           error={!!error}
           onChange={field.onChange}
+          sx={{borderRadius: '10px'}}
         >
           {items.map((item) => (
             <MenuItem key={item.id} value={item.id}>

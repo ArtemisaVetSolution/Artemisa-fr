@@ -237,7 +237,7 @@ const PetFormComponent = ({ id, tutorId, isEdit, name, specie, breed, petGender,
       <Controller
         name="alimentation"
         control={control}
-        defaultValue={alimentation? alimentation : ""}
+        defaultValue={alimentation ? alimentation : ""}
         rules={{
           minLength: {
             value: 3,

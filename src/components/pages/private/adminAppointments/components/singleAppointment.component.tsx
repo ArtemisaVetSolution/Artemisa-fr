@@ -9,6 +9,10 @@ import SubmitBtnComponent from "@/components/UX/atoms/buttons/submitBtn.componen
 import { useEffect, useState } from "react";
 import ReusableModal from "@/components/UX/molecules/modals/modal.component";
 import SubmitButton from "@/components/UX/atoms/buttons/submitButtonLoginRegister.component";
+import { useNavigate } from "react-router-dom";
+import { IPatients } from "@/services/patients/patients.service";
+import ModalComponent from "@/components/UX/atoms/modals/modal.components";
+import UploadResultComponent from "./uploadResult.component";
 
 interface IProps {
     appointment: IAppointmentResponse;
@@ -18,13 +22,24 @@ interface IFormInput {
     state: AppointmentState;
 }
 
+interface IState {
+    appointment: IAppointmentResponse;
+    patient: IPatients;
+}
+
 const SingleAppointmentComponent = ({ appointment }: IProps) => {
 
+    const navigate = useNavigate()
+
     const [showStateBtn, setShowStateBtn] = useState(false);
-    const [openModal, setOpenModal] = useState(false);
-    const handleOpenModal = () => setOpenModal(true);
-    const handleCloseModal = () => setOpenModal(false);
+    const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
+    const handleOpenConfirmationModal = () => setOpenConfirmationModal(true);
+    const handleCloseConfirmationModal = () => setOpenConfirmationModal(false);
     const [modalText, setModalText] = useState('');
+
+    const [openResultModal, setOpenResultModal] = useState(false);
+    const handleOpenResultModal = () => setOpenResultModal(true);
+    const handleCloseResultModal = () => setOpenResultModal(false);
 
     const { control, handleSubmit,
         formState: { errors }
@@ -62,10 +77,25 @@ const SingleAppointmentComponent = ({ appointment }: IProps) => {
             console.log(error);
             setModalText('Algo salió mal');
         } finally {
-            handleOpenModal()
+            handleOpenConfirmationModal()
         }
     }
 
+    const handleHistoryClick = () => {
+
+        const data: IState = {
+            appointment: appointment,
+            patient: appointment.patient
+        }
+
+        navigate('/history', { state: { data } })
+
+    }
+
+    const handleResultClick = () => {
+        handleOpenResultModal();
+    }
+ 
     return (
         <div className={styles.singleAppointmentContainer}>
             <h2>{appointment.service?.name}</h2>
@@ -86,12 +116,16 @@ const SingleAppointmentComponent = ({ appointment }: IProps) => {
                     showStateBtn && (<SubmitBtnComponent text={'Cambiar estado'} />)
                 }
             </form>
-            <ReusableModal open={openModal} handleClose={handleCloseModal} title={'Cambiar estado'} description={modalText} buttonText="Cerrar" />
+            <ReusableModal open={openConfirmationModal} handleClose={handleCloseConfirmationModal} title={'Cambiar estado'} description={modalText} buttonText="Cerrar" />
 
             <div className={styles.gridContainer}>
-                <SubmitButton text={'Crear historia clínica'} color={'complementary'}/>
-                <SubmitButton text={'Subir resultados '}/>
+                <SubmitButton text={'Crear historia clínica'} color={'complementary'} onClick={handleHistoryClick} />
+                <SubmitButton text={'Subir resultados '} onClick={handleResultClick}/>
             </div>
+            <ModalComponent open={openResultModal} onClose={handleCloseResultModal}>
+                <UploadResultComponent appointment={appointment}/>
+            </ModalComponent>
+            
 
         </div>
     )

@@ -71,7 +71,7 @@ const RecoverPasswordEmail = () => {
                 padding: '5%',
                 backgroundColor: "rgba(255, 255, 255, 0.8)",
             }}>
-                <Typography variant="h1" align="center" gutterBottom sx={{color: '#10353C'}}>
+                <Typography variant="h1" align="center" gutterBottom sx={{ color: '#10353C' }}>
                     Recuperar Contraseña
                 </Typography>
                 <Box sx={{
@@ -99,6 +99,7 @@ const RecoverPasswordEmail = () => {
                         defaultValue=""
                         render={({ field }) => (
                             <InputField
+                                backgroundColor='primary.light'
                                 label="Correo electrónico"
                                 field={field}
                                 error={errors.email}

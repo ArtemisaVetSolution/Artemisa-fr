@@ -1,6 +1,7 @@
 import { axiosInstanceManagmentAppoitments } from "@/config/axios.config";
 import { HISTORY_API_ENDPOINTS, TEndpointKeys } from "./medicalHistory.endpoints";
 import IHistoryResponse from "./interfaces/historyResponse.interface";
+import ICreateHistory from "./interfaces/createHistory.interface";
 
 const endpoints = (method: TEndpointKeys, id?: string) => {
     return HISTORY_API_ENDPOINTS(id)[method];
@@ -22,9 +23,9 @@ export class MedicalHistoryService {
         return data;
     }
 
-    // static async create(body: ICreatePatient) {
-    //     const endpoint = endpoints('CREATE')
-    //     const { data } = await axiosInstanceManagmentAppoitments.post(endpoint, body);
-    //     return data.data;
-    // }
+    static async create(body: ICreateHistory) {
+        const endpoint = endpoints('CREATE')
+        const { data } = await axiosInstanceManagmentAppoitments.post(endpoint, body);
+        return data;
+    }
 }

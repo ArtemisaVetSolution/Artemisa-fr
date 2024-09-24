@@ -10,9 +10,11 @@ interface InputFieldProps {
   icon?: React.ReactNode;
   autoComplete?: string;
   endAdornment?: React.ReactNode;
+  backgroundColor?: 'primary.light'
+
 }
 
-const InputField: React.FC<InputFieldProps> = ({ label, field, error, autoComplete = "off",  type = 'text', endAdornment }) => {
+const InputField: React.FC<InputFieldProps> = ({ backgroundColor ,label, field, error, autoComplete = "off",  type = 'text', endAdornment }) => {
   return (
     <TextField
       {...field}
@@ -34,7 +36,7 @@ const InputField: React.FC<InputFieldProps> = ({ label, field, error, autoComple
       sx={{
         width: { xs: '100%', md: '80%' },  
         borderRadius: '10px',
-        backgroundColor: 'primary.light',
+        backgroundColor: backgroundColor ? backgroundColor : 'ligth',
         '& fieldset': { 
           borderColor: 'complementary.main',
           borderRadius: '10px',
