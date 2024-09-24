@@ -90,7 +90,7 @@ const RecoverPasswordNewPassword = () => {
             backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)),url(static/assets/fondo_auth.jpg)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            height: '140vh',
+            height: '100vh',
             width: '100vw',
             display: 'flex',
             justifyContent: 'center'
@@ -102,7 +102,7 @@ const RecoverPasswordNewPassword = () => {
                 alignItems: 'center',
                 marginTop: '2%',
                 width: '70%',
-                height: '65%',
+                height: '90%',
                 borderRadius: '10px',
                 padding: '5%',
                 backgroundColor: "rgba(255, 255, 255, 0.8)",
@@ -124,7 +124,7 @@ const RecoverPasswordNewPassword = () => {
                             flexDirection: 'column',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            gap: '10%',
+                            gap: '3vh',
                             width: '100%',
                             height: '100%'
                         }

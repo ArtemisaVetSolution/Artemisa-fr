@@ -1,7 +1,7 @@
 
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { IHistoryFormInput } from './petInfo.component';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import IHistoryResponse from '@/services/medicalHistory/interfaces/historyResponse.interface';
 import useFetch from '@/hooks/fetch.hook';
 import { MedicalHistoryService } from '@/services/medicalHistory/medicalHistory.service';
@@ -12,23 +12,24 @@ interface IProps {
   id: number;
 }
 
-const ClinicalHistory = ({id}: IProps) => {
+const ClinicalHistory = ({ id }: IProps) => {
 
   const [historyId, setHistoryId] = useState('');
   const [loading, setLoading] = useState(false);
 
   let dateList: { id: string, name: string }[] = [];
-  const clinicalHistory: IHistoryResponse[] = useFetch(() => MedicalHistoryService.getAllOrFilter(`patientId=${id}`), [id]);
-  useEffect(() => {
-    dateList = clinicalHistory.map((record) => {
-      const date = new Date(record.appointment.date);
-      const formmatedDate = date.toISOString().split('T')[0]
-      return {
-        id: record.id,
-        name: formmatedDate
-      }
-    })
-  }, [])
+  const clinicalHistory: IHistoryResponse[] = useFetch(() => MedicalHistoryService.getAllOrFilter(`patientId=${id}`), []);
+  console.log(clinicalHistory);
+
+  dateList = clinicalHistory.map((record) => {
+    const date = new Date(record.appointment.date);
+    const formmatedDate = date.toISOString().split('T')[0]
+    return {
+      id: record.id,
+      name: formmatedDate
+    }
+  })
+
 
   const clinicalHistoryFile: Blob = useFetch(() => MedicalHistoryService.getFile(historyId), [historyId]);
 
@@ -68,17 +69,17 @@ const ClinicalHistory = ({id}: IProps) => {
 
   return (
     <form style={{ display: 'flex', width: '100%', gap: '1rem' }} onSubmit={loading ? handleSubmit(seeFile) : handleSubmit(generateFile)}>
-          <Controller name='id' control={control} defaultValue="" rules={{
-            required: {
-              value: true,
-              message: 'Campo requerido'
-            }
-          }} render={({ field }) => (
-            <BasicSelect label={'Fecha'} items={dateList} field={field} error={errors.id} />
-          )} />
+      <Controller name='id' control={control} defaultValue="" rules={{
+        required: {
+          value: true,
+          message: 'Campo requerido'
+        }
+      }} render={({ field }) => (
+        <BasicSelect label={'Fecha'} items={dateList} field={field} error={errors.id} />
+      )} />
 
-          <SubmitBtnComponent text={loading ? 'Ver archivo' : 'Confirmar'} />
-        </form>
+      <SubmitBtnComponent text={loading ? 'Ver archivo' : 'Confirmar'} />
+    </form>
   )
 }
 

@@ -12,6 +12,10 @@ interface IProps {
     rows: any[];
     onRowClick?: (rowId: string) => void;
     
+    page?: number;
+    rowsPerPage?: number;
+    onPageChange?: (event: unknown, newPage: number) => void;
+    onRowsPerPageChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function TableComponent({ columns, rows, onRowClick }: IProps) {
@@ -32,7 +36,7 @@ export default function TableComponent({ columns, rows, onRowClick }: IProps) {
  
     return (
       <Paper sx={{ width: '90%', overflow: 'visible', height: '90%' }}>
-        <TableContainer sx={{ height: '100%', overflowY:'scroll', backgroundColor:'ligth.main'}}>
+        <TableContainer sx={{ width: '100%', height: '100%', overflowY:'scroll', backgroundColor:'ligth.main' }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead  >
               <TableRow >
@@ -71,7 +75,7 @@ export default function TableComponent({ columns, rows, onRowClick }: IProps) {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
+          rowsPerPageOptions={[5, 10, 25, 100]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}

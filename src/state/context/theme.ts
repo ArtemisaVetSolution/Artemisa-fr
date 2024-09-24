@@ -37,7 +37,7 @@ const materialTheme = createTheme({
       main: "#E0FBFC",
     },
     dark: {
-      main: "#120309",
+      main: "#293241",
     },
     primary: {
       main: "#3D5A80",
