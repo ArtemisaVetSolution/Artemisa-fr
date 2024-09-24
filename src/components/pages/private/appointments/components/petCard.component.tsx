@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import styles from '../styles.module.css'
 import ModalComponent from './modal.components';
-import PetInfoComponent from './petInfo.component';
+import PetInfoComponent from '../../../../UX/molecules/modals/Patients/petInfo.component';
+
 
 interface PetCardProps {
 
@@ -13,6 +14,7 @@ interface PetCardProps {
     gender: string;
     weight?: number;
     color?: string;
+    tutorId?: string;
 
 }
 
@@ -22,7 +24,8 @@ function PetCardComponent(props: PetCardProps) {
 
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
-
+    console.log(props.id);
+    
 
     
     return (
@@ -50,7 +53,7 @@ function PetCardComponent(props: PetCardProps) {
             </div>
         </div>
         <ModalComponent open={openModal} onClose={handleCloseModal} >
-            <PetInfoComponent color={props.color} dob={props.dob} gender={props.gender} name={props.name} specie={props.specie} breed={props.breed} id={props.id} setCloseModal={handleCloseModal} />
+            <PetInfoComponent  color={props.color} dob={props.dob} gender={props.gender} name={props.name} specie={props.specie} breed={props.breed} id={props.id} setCloseModal={handleCloseModal} />
         </ModalComponent>
         </>
     );
