@@ -24,7 +24,7 @@ interface IProps {
   weight?: number;
   color?: string;
   setCloseModal: () => void;
-  tutorId?: string;
+  tutorId?: number;
   idNumber?: string;
   setData?: (val: boolean) => void;
 }
