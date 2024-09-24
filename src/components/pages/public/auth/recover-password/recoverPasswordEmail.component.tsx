@@ -32,18 +32,18 @@ const RecoverPasswordEmail = () => {
     const onSubmit = async (data: any) => {
         try {
             const response = await usePasswordRecovery({ ...data });
-            console.log( "respuesta desde el formulario de recover", response, typeof response);
-            
-            if(response === 201){
+            console.log("respuesta desde el formulario de recover", response, typeof response);
+
+            if (response === 201) {
                 setOpenModal(true)
-            }else if (response.includes('404')){
+            } else if (response.includes('404')) {
                 setErrorMessage('El correo electrónico no está registrado');
                 setOpenErrorModal(true);
-            }else{
+            } else {
                 setErrorMessage('Error en el servidor');
                 setOpenErrorModal(true);
             }
-            
+
         } catch (error: any) {
             console.error("Error en la petición desde coponent", error.message);
         }
@@ -69,9 +69,9 @@ const RecoverPasswordEmail = () => {
                 height: '65%',
                 borderRadius: '10px',
                 padding: '5%',
-                backgroundColor: "rgba(115, 178, 182, 0.5)",
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
             }}>
-                <Typography variant="h1" align="center" gutterBottom>
+                <Typography variant="h1" align="center" gutterBottom sx={{color: '#10353C'}}>
                     Recuperar Contraseña
                 </Typography>
                 <Box sx={{
@@ -79,7 +79,7 @@ const RecoverPasswordEmail = () => {
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
-                    <img src="static/assets/LsiluetaLogin.png" alt="Perro" style={{ width: '20vw', height: '25vh' }} />
+                    <img src="static/assets/logo_artemisa_2.png" alt="Perro" style={{ width: '25vw', height: '30vh' }} />
                 </Box>
                 <form onSubmit={handleSubmit(onSubmit)}
                     style={

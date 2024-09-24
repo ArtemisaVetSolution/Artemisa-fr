@@ -71,7 +71,7 @@ const Appointments = () => {
               pets.map((pet) => {
                 const date = new Date(pet.dob);
                 const formattedDate = date.toISOString().split('T')[0]
-                return <PetCardComponent key={pet.id} color={pet.color} dob={formattedDate} gender={pet.gender} name={pet.name} specie={pet.specie} breed={pet.breed} id={pet.id} />
+                return <PetCardComponent key={pet.id} tutorId={`${tutor?.id}`} color={pet.color} dob={formattedDate} gender={pet.gender} name={pet.name} specie={pet.specie} breed={pet.breed} id={pet.id} />
               })
           }
         </div>

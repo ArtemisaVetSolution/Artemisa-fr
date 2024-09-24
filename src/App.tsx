@@ -1,4 +1,4 @@
-import { PublicRoutes } from "./models/routes/routes.model";
+import { PrivateRoutes, PublicRoutes } from "./models/routes/routes.model";
 import { materialTheme } from "./state/context/theme";
 import { Route } from "react-router-dom";
 import { RoutesPlusNotFound } from "./components/utilities/routes-with-notFound.component";
@@ -11,6 +11,7 @@ import UserLayout from "./components/layout/user.layout";
 import Appointments from './components/pages/private/appointments/appointments.component';
 import AdminAppointments from "./components/pages/private/adminAppointments/adminAppointments.component";
 import { CssBaseline, ThemeProvider } from "@mui/material";
+import PatientsComponent from "./components/pages/private/patients/patients.component";
 
 
 function App() {
@@ -21,16 +22,23 @@ function App() {
     <ThemeProvider theme={materialTheme}>
       <CssBaseline enableColorScheme />
       <RoutesPlusNotFound>
-        <Route element={<Guard isForAuth />}>
+        <Route element={<Guard isForAuth/>}>
           <Route path={PublicRoutes.LOGIN} element={<Auth initialView="login" />} />
           <Route path={PublicRoutes.REGISTER} element={<Auth initialView="register" />} />
-          <Route path={PublicRoutes.RECOVER_PASSWORD} element={<RecoverPasswordEmail />}></Route>
-          <Route path={PublicRoutes.RECOVER_PASSWORD_NEW_PASS} element={<RecoverPasswordNewPassword />}></Route>
+          <Route path={PrivateRoutes.ALL_PATIENTS} element={<PatientsComponent/>}></Route>
         </Route>
+        <Route element={<Guard isForAuth />}>
+          {/* <Route path={PublicRoutes.RECOVER_PASSWORD_NEW_PASS} element={<RecoverPasswordNewPassword />}></Route> */}
+        </Route>
+        <Route path={PublicRoutes.RECOVER_PASSWORD} element={<RecoverPasswordEmail />}></Route>
+        <Route path={PublicRoutes.RECOVER_PASSWORD_NEW_PASS} element={<RecoverPasswordNewPassword />}></Route>
+
         <Route element={<UserLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/appointments" element={<Appointments/>}/>
-          <Route path="/admin/appointments" element={<AdminAppointments/>}/>
+          <Route element={<Guard />}>
+            <Route path="/appointments" element={<Appointments />} />
+            <Route path="/admin/appointments" element={<AdminAppointments />} />
+          </Route>
         </Route>
       </RoutesPlusNotFound>
     </ThemeProvider>

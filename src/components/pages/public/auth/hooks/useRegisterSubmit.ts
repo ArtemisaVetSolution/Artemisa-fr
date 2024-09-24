@@ -18,8 +18,9 @@ export const useRegisterSubmit = async ({ email, name, password, cellphone, iden
             identificationNumber
         });
         console.log("Respuesta del servidor:", response);
-        return response;
+        return response.statusCode;
     } catch (error: any) {
         console.error("Error en la petición:", error.message);
+        return error.message;
     }
 }

@@ -17,8 +17,7 @@ interface IToken {
 }
 
 
-const Guard = ({isForAuth}: IProps) => {
-
+const Guard = ({ isForAuth }: IProps) => {
   const navigate = useNavigate();
   const token = sessionStorage.getItem('token');
   let decodedToken: IToken = { exp: 0 };
@@ -26,29 +25,27 @@ const Guard = ({isForAuth}: IProps) => {
 
   if (token && token !== '') {
     decodedToken = jwtDecode(token);
-    console.log(decodedToken);
     if (decodedToken.exp * 1000 < new Date().getTime()) {
       sessionStorage.removeItem('token');
       sessionStorage.removeItem('user');
-      navigate('/login')
+      navigate('/login');
     }
   }
-  if( !token || sessionStorage.getItem('user') === null){
-    navigate('/login')
+
+  if (!token || sessionStorage.getItem('user') === null) {
+    if (!isForAuth) {
+      return <Outlet />;
+    }
+    navigate('/login');
   }
+
   user = sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user') ?? '') : emptyUserState;
-  
-  if(isForAuth){
-    if(user.id!== '')
-      return <Navigate to = {'/'}/>
+
+  if (isForAuth && user.id !== '') {
+    return <Navigate to={'/'} />;
   }
-  
 
-  
+  return <Outlet />;
+};
 
-  return (
-    <Outlet />
-  )
-}
-
-export default Guard
+export default Guard;

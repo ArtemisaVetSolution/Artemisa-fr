@@ -37,7 +37,7 @@ const materialTheme = createTheme({
       main: "#E0FBFC",
     },
     dark: {
-      main: "#293241",
+      main: "#120309",
     },
     primary: {
       main: "#3D5A80",
@@ -65,7 +65,7 @@ const materialTheme = createTheme({
     h1: {
       fontFamily: "Dosis",
       fontWeight: 700,
-      fontSize: "60px",
+      fontSize: "5vh",
       lineHeight: 1.5,
     },
     h2: {

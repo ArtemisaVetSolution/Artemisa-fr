@@ -10,7 +10,6 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Box, IconButton, Paper, Typography } from '@mui/material';
 
-
 import InputField from '../../../../UX/atoms/inputs/inputField.component';
 import SubmitButton from '../../../../UX/atoms/buttons/submitButtonLoginRegister.component';
 import { useRegisterSubmit } from '../hooks/useRegisterSubmit';
@@ -30,8 +29,7 @@ const schema = yup.object().shape({
         .matches(
             /(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
             'La contraseña debe tener una letra mayúscula, una letra minúscula y un número'
-        )
-    ,
+        ),
     cellphone: yup.string().required('Número de celular es requerido (ejm: +57 3008552525)'),
     identificationNumber: yup.number()
         .typeError('Debe ser un número')
@@ -42,7 +40,11 @@ const schema = yup.object().shape({
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
     const [openModal, setOpenModal] = useState(false);
+    const [openErrorModal, setOpenErrorModal] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+
+    const handleCloseErrorModal = () => setOpenErrorModal(false);
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };
@@ -54,9 +56,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
         try {
             const cellphone = `+${data.cellphone}`
             const response = await useRegisterSubmit({ ...data, cellphone });
-            console.log("Registro exitoso respuesta desde register component", response.data);
-            if (response.data !== undefined) {
+            console.log("Registro exitoso respuesta desde register component", response);
+            if (response === 201) {
                 setOpenModal(true);
+            } else {
+                setErrorMessage('Error en el servidor');
+                setOpenErrorModal(true);
             }
         } catch (error: any) {
             console.error("Error en la petición:", error.message);
@@ -76,12 +81,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
                 alignItems: 'center',
                 marginTop: '5%',
                 width: '100%',
-                height: '80%',
+                height: {  md: '83%' },
                 borderRadius: '10px',
                 padding: '5%',
-                backgroundColor: "rgba(115, 178, 182, 0.5)",
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
             }}>
-                <Typography variant="h2" align="center" gutterBottom>
+                <Typography variant="h2" align="center" gutterBottom sx={{ color: '#10353C', fontSize: { xs: '1.5rem', md: '2rem' } }}>
                     Bienvenido
                 </Typography>
                 <Box sx={{
@@ -89,12 +94,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
-                    <img src="static/assets/LsiluetaLogin.png" alt="Perro" style={{ width: '20vw', height: '25vh' }} />
+                    <img src="static/assets/logo_artemisa_2.png" alt="Perro" style={{ width: '25vw', height: '30vh', maxWidth: '100%' }} />
                 </Box>
-                <Typography variant="body1" align="center" sx={{ marginTop: '10px', marginBottom:'20px', fontWeight: 'bold' }}>
-                    ¿Ya tienes una cuenta?{''}
+                <Typography variant="body1" align="center" sx={{ fontWeight: 'bold', marginTop: '2vh', marginBottom: '1.5vh', color: '#10353C' }}>
+                    ¿Ya tienes una cuenta?{' '}
                     <br />
-                    <span onClick={onSwitchToLogin} style={{ cursor: "pointer", color: "#293241" }}>
+                    <span onClick={onSwitchToLogin} style={{ cursor: "pointer", color: '#450C23' }}>
                         Inicia Sesión
                     </span>
                 </Typography>
@@ -104,7 +109,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
                         flexDirection: 'column',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        gap: '20px',
+                        gap: '2vh',
                         width: '100%',
                         height: '100%'
                     }}>
@@ -169,7 +174,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
-                            <>
+                            <Box sx={{ width: { xs: '100%', md: '80%' } }}>
                                 <PhoneInput
                                     country={'co'}
                                     value={field.value}
@@ -179,7 +184,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
                                         required: true,
                                         autoFocus: true,
                                     }}
-                                    containerStyle={{ width: '80%' }}
                                     inputStyle={{
                                         width: '100%',
                                         height: '8vh',
@@ -187,13 +191,14 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
                                         backgroundColor: '#A8D0D2',
                                         borderColor: '#ffffff',
                                     }}
-                                    specialLabel="Número de celular" />
+                                    specialLabel="Número de celular"
+                                />
                                 {errors.cellphone && (
                                     <Typography variant="body2" color="error">
                                         {errors.cellphone.message}
                                     </Typography>
                                 )}
-                            </>
+                            </Box>
                         )} />
 
                     <SubmitButton text="REGISTRARSE" color='complementary' colorProperties='dark' />
@@ -204,6 +209,13 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
                 handleClose={handleCloseModal}
                 title="Verificación de Correo Electrónico"
                 description="Por favor, revisa tu correo electrónico para verificar tu cuenta."
+                buttonText="CERRAR"
+            />
+            <ReusableModal
+                open={openErrorModal}
+                handleClose={handleCloseErrorModal}
+                title="Error"
+                description={errorMessage}
                 buttonText="CERRAR"
             />
         </>
