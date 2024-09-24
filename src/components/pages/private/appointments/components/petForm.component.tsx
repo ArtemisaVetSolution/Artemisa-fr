@@ -22,12 +22,29 @@ interface IFormInput {
   alimentation: string;
 }
 
-interface IProps {
-  tutorId: number;
-  isEdit?: boolean;
+interface IFormInputPatch {
+  name?: string;
+  specie?: string;
+  breed?: string;
+  gender?: string;
+  dob?: Dayjs;
+  color?: string;
+  alimentation?: string;
 }
 
-const PetFormComponent = ({ tutorId, isEdit }: IProps) => {
+interface IProps {
+  tutorId?: number;
+  id?: number;
+  isEdit?: boolean;
+  name?: string;
+  specie?: string;
+  breed?: string
+  petGender?: string;
+  color?: string;
+  alimentation?: string;
+}
+
+const PetFormComponent = ({ id, tutorId, isEdit, name, specie, breed, petGender, color, alimentation }: IProps) => {
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
@@ -35,7 +52,7 @@ const PetFormComponent = ({ tutorId, isEdit }: IProps) => {
 
   useEffect(() => {
     if (isEdit) {
-      console.log("Editando mascota");
+      
     }
   }, [isEdit]);
 
@@ -65,9 +82,10 @@ const PetFormComponent = ({ tutorId, isEdit }: IProps) => {
         dob: data.dob?.toISOString().split("T")[0],
         color: data.color,
         alimentation: data.alimentation,
-        tutorId,
-      };
+        tutorId: tutorId || 0
+      }; 
       if (isEdit) {
+        handleSaveEdit(body);
       } else {
         const response = await PatientsService.create(body);
         if (response.statusCode === 201) {
@@ -82,23 +100,28 @@ const PetFormComponent = ({ tutorId, isEdit }: IProps) => {
     }
   };
 
-  const handleSaveEdit = async (data: IFormInput) => {
+  const handleSaveEdit = async (data: any) => {
     try {
-      const body: ICreatePatient = {
-        name: data.name,
-        specie: data.specie,
-        gender: data.gender,
-        tutorId,
+      const body = {
+        name: data.name || "",
+        specie: data.specie || "",
+        gender: data.gender || "",
+        id: id || 0,
       };
-      const pet = await PatientsService.ge
-      const response = await PatientsService.update(body);
 
+      const filteredBody = Object.fromEntries(
+        Object.entries(body).filter(([_, value]) => value !== undefined && value !== null && value !== '')
+      );
+      const response = await PatientsService.update(filteredBody, id?.toString() || "");
+      console.log(response);
+      
     } catch (error) {
       console.log(error);
       setModalText("Algo salió mal");
       handleOpenModal();
     }
   };
+  
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       {isEdit ? (
@@ -110,7 +133,7 @@ const PetFormComponent = ({ tutorId, isEdit }: IProps) => {
       <Controller
         name="name"
         control={control}
-        defaultValue=""
+        defaultValue={name? name : ""}
         rules={{
           required: {
             value: true,
@@ -133,7 +156,7 @@ const PetFormComponent = ({ tutorId, isEdit }: IProps) => {
       <Controller
         name="specie"
         control={control}
-        defaultValue=""
+        defaultValue={specie? specie : ""}
         rules={{
           required: {
             value: true,
@@ -153,7 +176,7 @@ const PetFormComponent = ({ tutorId, isEdit }: IProps) => {
       <Controller
         name="breed"
         control={control}
-        defaultValue=""
+        defaultValue={breed? breed : ""}
         rules={{
           minLength: {
             value: 3,
@@ -168,7 +191,7 @@ const PetFormComponent = ({ tutorId, isEdit }: IProps) => {
       <Controller
         name="gender"
         control={control}
-        defaultValue=""
+        defaultValue={petGender}
         rules={{
           required: {
             value: true,
@@ -201,7 +224,7 @@ const PetFormComponent = ({ tutorId, isEdit }: IProps) => {
       <Controller
         name="color"
         control={control}
-        defaultValue=""
+        defaultValue={color? color : ""}
         rules={{
           minLength: {
             value: 3,
@@ -214,7 +237,7 @@ const PetFormComponent = ({ tutorId, isEdit }: IProps) => {
       <Controller
         name="alimentation"
         control={control}
-        defaultValue=""
+        defaultValue={alimentation? alimentation : ""}
         rules={{
           minLength: {
             value: 3,

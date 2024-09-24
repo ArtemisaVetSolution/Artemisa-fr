@@ -2,16 +2,17 @@ import { Typography } from '@mui/material';
 import styles from '@/components/pages/private/appointments/styles.module.css';
 import SubmitBtnComponent from '@/components/UX/atoms/buttons/submitBtn.component';
 import { useState } from 'react';
-import useFetch from '@/hooks/fetch.hook';
-import { MedicalHistoryService } from '@/services/medicalHistory/medicalHistory.service';
-import BasicSelect from '@/components/UX/atoms/inputs/select.component';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import IHistoryResponse from '@/services/medicalHistory/interfaces/historyResponse.interface';
-import ITestResultResponse from '@/services/testResults/interfaces/testResultResponse.interface';
-import { TestResultsService } from '@/services/testResults/testResults.service';
+// import useFetch from '@/hooks/fetch.hook';
+// import { MedicalHistoryService } from '@/services/medicalHistory/medicalHistory.service';
+// import BasicSelect from '@/components/UX/atoms/inputs/select.component';
+// import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+// import ITestResultResponse from '@/services/testResults/interfaces/testResultResponse.interface';
+// import { TestResultsService } from '@/services/testResults/testResults.service';
 import { Pen } from 'lucide-react';
 import ModalComponent from '@/components/pages/private/appointments/components/modal.components';
 import PetFormComponent from '@/components/pages/private/appointments/components/petForm.component';
+import ClinicalHistory from './Clinical-history.component';
+import TestResults from './Test-results.component';
 
 interface IProps {
   id: number;
@@ -23,7 +24,7 @@ interface IProps {
   weight?: number;
   color?: string;
   setCloseModal: () => void;
-  tutor?: string;
+  tutorId?: string;
   idNumber?: string;
 }
 
@@ -34,79 +35,17 @@ export interface IHistoryFormInput {
 const PetInfoComponent = (props: IProps) => {
   const [hover, setHover] = useState(false);
   const [getClinicalHistory, setGetClinicalHistory] = useState(false)
-  const [historyId, setHistoryId] = useState('');
-  const [loading, setLoading] = useState(false);
   const [getTestResult, setGetTestResult] = useState(false);
-  const [testId, setTestId] = useState('');
+
+
   const [openPetModal, setOpenPetModal] = useState(false);
 
   const handleOpenPetModal = () => setOpenPetModal(true);
   const handleClosePetModal = () => setOpenPetModal(false);
 
-  const clinicalHistory: IHistoryResponse[] = useFetch(() => MedicalHistoryService.getAllOrFilter(`patientId=${props.id}`), [getClinicalHistory]);
-
-  const clinicalHistoryFile: Blob = useFetch(() => MedicalHistoryService.getFile(historyId), [historyId]);
-
-  const testResults: ITestResultResponse[] = useFetch(() => TestResultsService.getAllOrFilter(`patientId=${props.id}`), [getTestResult]);
-
-  const testResultFile: Blob = useFetch(() => TestResultsService.getFile(testId), [testId]);
-
-
-
-  const dateList = clinicalHistory.map((record) => {
-    const date = new Date(record.appointment.date);
-    const formmatedDate = date.toISOString().split('T')[0]
-    return {
-      id: record.id,
-      name: formmatedDate
-    }
-  })
-
-  const testsList = testResults.map(test => {
-    const date = new Date(test.date);
-    const formattedDate = date.toISOString().split('T')[0];
-    return {
-      id: test.id,
-      name: `${test.service.name} - ${formattedDate}`
-    }
-  })
-
   const handleClinicalHistory = () => {
     setGetClinicalHistory(true);
     setGetTestResult(false);
-  }
-
-  const { control, handleSubmit,
-    formState: { errors }
-  } = useForm<IHistoryFormInput>();
-
-  const generateFile: SubmitHandler<IHistoryFormInput> = (data) => {
-    try {
-      setLoading(true);
-      setHistoryId(data.id);
-
-    } catch (error) {
-      console.error('Error al generar el PDF:', error);
-    }
-  }
-
-  const seeFile: SubmitHandler<IHistoryFormInput> = () => {
-    try {
-      // Crear una URL desde el blob
-      const fileUrl = window.URL.createObjectURL(new Blob([clinicalHistoryFile], { type: 'application/pdf' }));
-
-      // Abrir el PDF en una nueva pestaña
-      window.open(fileUrl, '_blank');
-
-      return () => {
-        window.URL.revokeObjectURL(fileUrl);
-      };
-    } catch (error) {
-      console.error('Error al generar el PDF:', error);
-    } finally {
-      setLoading(false);
-      props.setCloseModal();
-    }
   }
 
   const handleTestResult = () => {
@@ -114,33 +53,7 @@ const PetInfoComponent = (props: IProps) => {
     setGetClinicalHistory(false);
   }
 
-  const generateTestFile: SubmitHandler<IHistoryFormInput> = (data) => {
-    try {
-      setLoading(true);
-      setTestId(data.id);
-    } catch (error) {
-      console.log('Error al generar el PDF:', error)
-    }
-  }
-
-  const seeTestFile:  SubmitHandler<IHistoryFormInput> = () => {
-    try {
-
-      const fileUrl = window.URL.createObjectURL(new Blob([testResultFile], { type: 'application/pdf' }));
-
-      // Abrir el PDF en una nueva pestaña
-      window.open(fileUrl, '_blank');
-
-      return () => {
-        window.URL.revokeObjectURL(fileUrl);
-      };
-    } catch (error) {
-      console.log('Error al generar el PDF:', error)
-    } finally {
-      setLoading(false);
-      props.setCloseModal();
-    }
-  }
+  
 
 
   return (
@@ -157,8 +70,8 @@ const PetInfoComponent = (props: IProps) => {
       onMouseLeave={() => setHover(false)} />
       <Typography variant='h3'>{props.name}</Typography>
       <div className={styles.petInfo}>
-        { props.tutor && <Typography>
-          <span className={styles.infoLabel}>Tutor:</span> {props.tutor}
+        { props.tutorId && <Typography>
+          <span className={styles.infoLabel}>Tutor:</span> {props.tutorId}
         </Typography>
           }
           { props.idNumber && <Typography>
@@ -190,37 +103,15 @@ const PetInfoComponent = (props: IProps) => {
       </div>
       {
         getClinicalHistory &&
-        <form style={{ display: 'flex', width: '100%', gap: '1rem' }} onSubmit={loading ? handleSubmit(seeFile) : handleSubmit(generateFile)}>
-          <Controller name='id' control={control} defaultValue="" rules={{
-            required: {
-              value: true,
-              message: 'Campo requerido'
-            }
-          }} render={({ field }) => (
-            <BasicSelect label={'Fecha'} items={dateList} field={field} error={errors.id} />
-          )} />
-
-          <SubmitBtnComponent text={loading ? 'Ver archivo' : 'Confirmar'} />
-        </form>
+        <ClinicalHistory  id={props.id}/>
+        // handleSubmit={handleSubmit} errors={errors} seeFile={seeFile} generateFile={generateFile} dateList={dateList} loading={loading} 
       }
-
       {
         getTestResult &&
-        <form style={{ display: 'flex', width: '100%', gap: '1rem' }} onSubmit={loading ? handleSubmit(seeTestFile) : handleSubmit(generateTestFile)}>
-          <Controller name='id' control={control} defaultValue="" rules={{
-            required: {
-              value: true,
-              message: 'Campo requerido'
-            }
-          }} render={({ field }) => (
-            <BasicSelect label={'Servicio'} items={testsList} field={field} error={errors.id} />
-          )} />
-
-          <SubmitBtnComponent text={loading ? 'Ver archivo' : 'Confirmar'} />
-        </form>
+        <TestResults id={props.id}/>
       }
       <ModalComponent open={openPetModal} onClose={handleClosePetModal}>
-          <PetFormComponent tutorId={1234} isEdit/>
+          <PetFormComponent tutorId={1234} isEdit name={props.name} specie={props.specie} breed={props.breed} petGender={props.gender}  color={props.color} id={props.id}/>
       </ModalComponent>
     </div>
   )
