@@ -1,9 +1,11 @@
+import { useState, useEffect } from 'react';
 import TableComponent from "@/components/UX/molecules/tables/table.component";
-import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import useFetch from "@/hooks/fetch.hook";
 import { IPatients, PatientsService } from "@/services/patients/patients.service";
-import { Button } from "@mui/material";
+import SubmitButton from "@/components/UX/atoms/buttons/submitButtonLoginRegister.component";
+import { Container, FormControl, InputLabel, MenuItem, Select, TextField, Button, Typography, Box } from "@mui/material";
+import { useForm, useWatch } from "react-hook-form";
 
 const patientColumns = [
     { key: 'name', label: 'Nombre' },
@@ -20,21 +22,72 @@ const patientColumns = [
 ];
 
 export default function PatientsComponent() {
-    const [species, setSpecies] = useState<string>(''); 
+    const { control, setValue, getValues, reset } = useForm({
+        defaultValues: {
+            species: '',
+            tutorIdentity: '',
+        },
+    });
+
+    const [page, setPage] = useState(0); // Página actual
+    const [rowsPerPage, setRowsPerPage] = useState(10); // Filas por página
+
     const navigate = useNavigate();
+    const [query, setQuery] = useState<string>('');
+
+    const species = useWatch({ control, name: 'species' });
+    const tutorIdentity = useWatch({ control, name: 'tutorIdentity' });
 
     const handleViewPatient = (id: number) => {
         navigate(`/patient/${id}`);
     };
 
-    const handleSpeciesChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setSpecies(event.target.value); // Actualiza el estado con la especie seleccionada
+    const buildQuery = () => {
+        const values = getValues();
+        const query = [];
+
+        if (values.species) {
+            query.push(`specie=${values.species}`);
+        }
+
+        if (values.tutorIdentity) {
+            query.push(`tutorIdentity=${values.tutorIdentity}`);
+        }
+
+        query.push(`limit=${rowsPerPage}`);
+        query.push(`page=${page + 1}`);
+
+        return query.join('&');
     };
 
-    const patients: IPatients[] = useFetch(() => {
-        return PatientsService.getAll(species);
-    });
+    const { data: patients = [] }: { data: IPatients[] } = useFetch(async () => {
+        const response = await PatientsService.getAll(query);
+        console.log('response desde hook', response);
+        return response;
+    }, [query]);
 
+    const handleFetchPatients = () => {
+        const queryString = buildQuery();
+        setQuery(queryString);
+    };
+
+    const handleChangePage = (_: unknown, newPage: number) => {
+        setPage(newPage);
+        handleFetchPatients();
+    };
+
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+        handleFetchPatients();
+    };
+
+    const handleReset = () => {
+        reset(); // Restablece los valores del formulario a sus valores predeterminados
+        setQuery(''); // Limpia las queries
+        setPage(0); // Restablece la página a 0
+        setRowsPerPage(10); // Restablece las filas por página a 10
+    };
 
     const rows = patients.map(patient => {
         const date = new Date(patient.dob);
@@ -53,32 +106,119 @@ export default function PatientsComponent() {
             sterilized: sterilized,
             tutorName: patient.tutor.name,
             singlePatient: (
-                <Button variant="contained" color="primary" onClick={() => handleViewPatient(patient.id)}>
-                    Ver Paciente
-                </Button>
+                <SubmitButton
+                    text="Ver Paciente"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleViewPatient(patient.id)}
+                />
             ),
         }
     });
 
-    // Retorno del JSX
+    const speciesOptions = [
+        { value: '', label: 'Todas las especies' },
+        { value: 'Felino', label: 'Felino' },
+        { value: 'Canino', label: 'Canino' },
+        { value: 'Ave', label: 'Ave' },
+        { value: 'Roedor', label: 'Roedor' },
+        { value: 'Conejo', label: 'Conejo' },
+        { value: 'Otro', label: 'Otro' },
+    ];
+
     return (
-        <div>
-            <h1>Pacientes</h1>
+        <Container maxWidth={false} sx={{
+            width: '100vw',
+            high: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#73B2B6',
+            padding: '2%',
+        }}>
+            <Typography variant="h1" component="h1" gutterBottom sx={{color: 'primary.main'}}>
+                Pacientes
+            </Typography>
+            <Box gap={2} mb={2} sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: '90%',
+            }}>
+                <FormControl variant="outlined" fullWidth sx={{
+                    width: { xs: '100%', md: '30%' },
+                    borderRadius: '10px',
+                    backgroundColor: 'primary.light',
+                    '& fieldset': {
+                        borderColor: 'complementary.main',
+                        borderRadius: '10px',
+                    },
+                    '&:hover fieldset': {
+                        borderColor: 'complementary.main',
+                    }
+                }}>
+                    <InputLabel id="species-select-label"
+                    >Filtrar por especie</InputLabel>
+                    <Select
+                        labelId="species-select-label"
+                        id="species-select"
+                        value={species || ''}
+                        onChange={(e) => setValue('species', e.target.value)}
+                        label="Filtrar por especie"
+                    >
+                        {speciesOptions.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
 
-            {/* Select para elegir la especie */}
-            <label htmlFor="species">Filtrar por especie: </label>
-            <select id="species" value={species} onChange={handleSpeciesChange}>
-                <option value="">Todas las especies</option>
-                <option value="Felino">Felino</option>
-                <option value="Canino">Canino</option>
-                <option value="Ave">Ave</option>
-                <option value="Roedor">Roedor</option>
-                <option value="Conejo">Conejo</option>
-                <option value="Otro">Otro</option>
-            </select>
+                <TextField
+                    label="Número de Identificación del Tutor"
+                    variant="outlined"
+                    fullWidth
+                    value={tutorIdentity || ''}
+                    onChange={(e) => setValue('tutorIdentity', e.target.value)}
+                    sx={{
+                        width: { xs: '100%', md: '30%' },
+                        borderRadius: '10px',
+                        backgroundColor: 'primary.light',
+                        '& fieldset': {
+                            borderColor: 'complementary.main',
+                            borderRadius: '10px',
+                        },
+                        '&:hover fieldset': {
+                            borderColor: 'complementary.main',
+                        }
+                    }}
+                />
 
-            {/* Tabla que muestra los resultados */}
-            <TableComponent columns={patientColumns} rows={rows} />
-        </div>
+
+                <SubmitButton
+                    text="Filtrar Pacientes"
+                    variant="contained"
+                    color="primary"
+                    onClick={handleFetchPatients}
+                />
+
+                <SubmitButton
+                    text="Borar filtros"
+                    variant="contained"
+                    color='complementary'
+                    colorProperties='dark'
+                    onClick={handleReset}
+                />
+            </Box>
+            <TableComponent
+                columns={patientColumns}
+                rows={rows}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+        </Container>
     );
 }
