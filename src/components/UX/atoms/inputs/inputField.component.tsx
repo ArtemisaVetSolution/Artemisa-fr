@@ -34,7 +34,7 @@ const InputField: React.FC<InputFieldProps> = ({ label, field, error, autoComple
       sx={{
         width: { xs: '100%', md: '80%' },  
         borderRadius: '10px',
-        backgroundColor: 'light',
+        backgroundColor: 'ligth',
         '& fieldset': { 
           borderColor: 'complementary.main',
           borderRadius: '10px',
