@@ -9,6 +9,8 @@ import SubmitBtnComponent from "@/components/UX/atoms/buttons/submitBtn.componen
 import { useEffect, useState } from "react";
 import ReusableModal from "@/components/UX/molecules/modals/modal.component";
 import SubmitButton from "@/components/UX/atoms/buttons/submitButtonLoginRegister.component";
+import { useNavigate } from "react-router-dom";
+import { IPatients } from "@/services/patients/patients.service";
 
 interface IProps {
     appointment: IAppointmentResponse;
@@ -18,7 +20,14 @@ interface IFormInput {
     state: AppointmentState;
 }
 
+interface IState {
+    appointment: IAppointmentResponse;
+    patient: IPatients;
+}
+
 const SingleAppointmentComponent = ({ appointment }: IProps) => {
+
+    const navigate = useNavigate()
 
     const [showStateBtn, setShowStateBtn] = useState(false);
     const [openModal, setOpenModal] = useState(false);
@@ -66,6 +75,17 @@ const SingleAppointmentComponent = ({ appointment }: IProps) => {
         }
     }
 
+    const handleHistoryClick = () => {
+
+        const data: IState = {
+            appointment: appointment,
+            patient: appointment.patient
+        }
+
+        navigate('/history', { state: { data } })
+
+    }
+
     return (
         <div className={styles.singleAppointmentContainer}>
             <h2>{appointment.service?.name}</h2>
@@ -89,8 +109,8 @@ const SingleAppointmentComponent = ({ appointment }: IProps) => {
             <ReusableModal open={openModal} handleClose={handleCloseModal} title={'Cambiar estado'} description={modalText} buttonText="Cerrar" />
 
             <div className={styles.gridContainer}>
-                <SubmitButton text={'Crear historia clínica'} color={'complementary'}/>
-                <SubmitButton text={'Subir resultados '}/>
+                <SubmitButton text={'Crear historia clínica'} color={'complementary'} onClick={handleHistoryClick} />
+                <SubmitButton text={'Subir resultados '} />
             </div>
 
         </div>

@@ -16,6 +16,7 @@ import { AppointmentsService } from "@/services/appointments/appointments.servic
 import SubmitButton from "@/components/UX/atoms/buttons/submitButtonLoginRegister.component";
 import ModalComponent from "@/components/UX/atoms/modals/modal.components";
 import SingleAppointmentComponent from "./components/singleAppointment.component";
+import MedicalHistoryForm from "./components/medicalHistoryForm.component";
 
 
 interface IFormInput {
@@ -167,6 +168,8 @@ const AdminAppointments = () => {
 
 
         </div>
+
+        // <MedicalHistoryForm/>
 
     )
 }
