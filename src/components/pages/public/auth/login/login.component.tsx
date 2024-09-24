@@ -77,7 +77,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
         padding: '5%',
         backgroundColor: "rgba(255, 255, 255, 0.8)",
       }}>
-        <Typography variant="h1" align="center" gutterBottom sx={{color: '#10353C'}}>
+        <Typography variant="h1" align="center" gutterBottom sx={{ color: '#10353C' }}>
           Iniciar Sesión
         </Typography>
         <Box sx={{
@@ -87,7 +87,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
         }}>
           <img src="static/assets/logo_artemisa_2.png" alt="Perro" style={{ width: '25vw', height: '30vh' }} />
         </Box>
-        <Typography variant="body1" align="center" sx={{ fontWeight: 'bold', marginBottom:'20px', color: '#10353C' }}>
+        <Typography variant="body1" align="center" sx={{ fontWeight: 'bold', marginBottom: '20px', color: '#10353C' }}>
           ¿No tienes una cuenta?{' '}
           <br />
           <span onClick={onSwitchToRegister} style={{ cursor: "pointer", color: '#450C23' }}>
@@ -112,6 +112,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
             defaultValue=""
             render={({ field }) => (
               <InputField
+                backgroundColor='primary.light'
                 label="Correo electrónico"
                 field={field}
                 error={errors.email}
@@ -127,6 +128,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
             render={({ field }) => (
               <InputField
                 label="Contraseña"
+                backgroundColor='primary.light'
                 type={showPassword ? 'text' : 'password'}
                 field={field}
                 error={errors.password}

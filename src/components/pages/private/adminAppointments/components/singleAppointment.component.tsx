@@ -123,8 +123,9 @@ const SingleAppointmentComponent = ({ appointment }: IProps) => {
                 <SubmitButton text={'Subir resultados '} onClick={handleResultClick}/>
             </div>
             <ModalComponent open={openResultModal} onClose={handleCloseResultModal}>
-                <UploadResultComponent/>
+                <UploadResultComponent appointment={appointment}/>
             </ModalComponent>
+            
 
         </div>
     )

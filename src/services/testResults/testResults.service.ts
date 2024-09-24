@@ -1,6 +1,7 @@
-import { axiosInstanceManagmentAppoitments } from "@/config/axios.config";
+import { axiosInstanceFormData, axiosInstanceManagmentAppoitments } from "@/config/axios.config";
 import { TEndpointKeys, TEST_RESULTS_API_ENDPOINTS } from "./testResults.endpoints";
 import ITestResultResponse from "./interfaces/testResultResponse.interface";
+import ICreateTestResult from "./interfaces/createTestResult.interface";
 
 const endpoints = (method: TEndpointKeys, id?: string) => {
     return TEST_RESULTS_API_ENDPOINTS(id)[method];
@@ -19,6 +20,12 @@ export class TestResultsService {
         const { data } = await axiosInstanceManagmentAppoitments.get<Blob>(endpoint, {
             responseType: 'blob',
         });
+        return data;
+    }
+
+    static async uploadFile(body: ICreateTestResult) {
+        const endpoint = endpoints('UPLOAD_FILE');
+        const { data } = await axiosInstanceFormData.post(endpoint, body);
         return data;
     }
 }
