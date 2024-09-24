@@ -20,7 +20,7 @@ const TestResults = ({id}: IProps) => {
 
   const generateTestFile: SubmitHandler<IHistoryFormInput> = (data) => {
     try {
-      // setLoading(true);
+      setLoading(true);
       setTestId(data.id);
     } catch (error) {
       console.log('Error al generar el PDF:', error)

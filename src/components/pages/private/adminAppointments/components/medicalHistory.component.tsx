@@ -1,3 +1,5 @@
+import { useForm } from "react-hook-form";
+
 interface IFormInput {
     previousIllnesses: string,
     consultationReason: string,
@@ -16,6 +18,11 @@ interface IFormInput {
 }
 
 const MedicalHistoryComponent = () => {
+
+    const { control, handleSubmit,
+        formState: { errors }
+    } = useForm<IFormInput>();
+
 
   return (
     <div>MedicalHistoryComponent</div>
