@@ -12,3 +12,36 @@
     align-items: center;
     padding: 1rem 0;
 }
+
+.singleAppointmentContainer {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 1rem auto;
+    gap: 1rem;
+    max-width: 500px;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem; 
+    width: 100%;
+  }
+  
+  .infoTag {
+    font-weight: bold;
+  }
+  
+
+  @media (max-width: 768px) {
+    .gridContainer {
+      grid-template-columns: 1fr; 
+    }
+  }
+  
