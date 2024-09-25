@@ -159,7 +159,7 @@ const RecoverPasswordNewPassword = () => {
                         render={({ field }) => (
                             <InputField
                                 backgroundColor='primary.light'
-                                label="Contraseña"
+                                    label="Contraseña"
                                 type={showPassword ? 'text' : 'password'}
                                 field={field}
                                 error={errors.confirmPassword}
